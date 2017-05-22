@@ -1,0 +1,629 @@
+* {
+    font-family: Arial, Helvetica, sans-serif
+}
+
+.code {
+    font-family: "Courier New", Courier, monospace
+}
+
+header {
+    background-color: #202020;
+    height: 100px;
+    text-align: center;
+    padding-top: 20px;
+    display: none;
+}
+
+html, body {
+    margin: 0;
+}
+
+div.page {
+    background-color: magenta;
+    /*tale colore lo uso per evidenziare le zone di pagina mal realizzate da me*/
+    height: 100%;
+    position:relative;
+}
+
+p, li {
+    color: #333333;
+}
+
+.user {
+    font-weight: bold;
+}
+
+h1 {
+    font-weight: bold;
+    color: white;
+}
+
+h2, h3, h4, h5, h6 {
+    display: block;
+    width: inherit;
+    color: #1963E8;
+}
+
+nav {
+    background-color: #333333;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+}
+
+nav ul, nav li, nav div.logout {
+    list-style-type: none;
+    display: inline-block;
+    margin: auto;
+    padding: 0;
+}
+
+nav li.active {
+    background-color: #4CAF50;
+    height: 100%;
+}
+
+nav li a, nav div.logout a {
+    display: block;
+    width: auto;
+    text-align: center;
+    text-decoration: none;
+    padding-top: 5px;
+    padding: 14px 16px;
+}
+nav div.logout a{
+    padding:8px;
+}
+
+nav li a:hover, nav div.logout:hover {
+    background-color: #1963E8;
+}
+
+nav a:link, nav a:visited {
+    color: white;
+}
+
+
+
+div.content {
+    background-color: #FFFFFF;
+    height: auto;
+    width: auto;
+    padding: 16px;
+    margin-left: 200px;
+    margin-top: 48px;
+}
+
+aside {
+    background: #BCBCBC;
+    margin: 0;
+    width: 200px;
+    height: 100%;
+    position: fixed;
+    top: 48px;
+    bottom: 0;
+    left: 0;
+}
+
+div.forms {
+    border-radius: 4px;
+    margin: auto;
+    padding: 16px;
+    display: block;
+    width: 500px;
+}
+
+div.logo {
+    display: block;
+    width: 100%;
+    margin: auto;
+    padding: 0;
+}
+
+div.logout {
+    height: 48px;
+}
+
+div.logo {
+    display: inline-block;
+    margin: auto;
+    padding: 0;
+    vertical-align: middle;
+    text-align: center;
+}
+
+div.logo p {
+    font-size: 1.5em;
+}
+
+#login label::after, #login label::before, #newPost input::before {
+    content: '\A';
+    white-space: pre;
+}
+
+#newPost input  {
+    margin-top: 5px;
+    margin-bottom:5px;
+    width:99.3%
+}
+#newPost input:hover, #newPost input:focus {
+    width:99.6%;
+}
+
+
+#newPost input[type="radio"], #newPost label{
+    width:auto;
+    display:inline; 
+    vertical-align: middle;
+    height:100%;
+}
+#newPost input[type="radio"]{
+    margin-top:-1px;
+    margin-bottom:0;
+}
+
+input, button {
+    display: block;
+}
+
+input {
+    height: 20px;
+}
+
+input.search {
+    margin: 5px;
+    width: auto;
+    height: 21px;
+    border: 1px solid #FAFAFA;
+    background-image: url("images/searchicon.png");
+    background-position: 3px 3px;
+    background-repeat: no-repeat;
+    padding-left: 25px;
+}
+input.search:hover, input.search:focus{
+    padding-left:27px;
+    height: 21px;
+}
+
+input:hover {
+    border: 1px solid #44C2FF;
+    height: 22px;
+    box-shadow: 0 0 2px rgba(68, 194, 255, 0.5);
+    
+    padding-left:2px;
+}
+
+input:focus {
+    border: 1px solid #1CA8FF;
+    height: 22px;
+    box-shadow: 0 0 2px rgba(28, 168, 255, 0.5);
+    padding-left:2px;
+}
+
+div#login input, .forms.post input[type="text"] {
+    width: 98.7%;
+}
+
+#login input:focus, #login input:hover, .forms.post input[type="text"]:hover {
+    width: 99%;
+}
+
+#infos input, #infos label {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+button#delete{
+    color:#a30000;
+}
+
+#infos {
+    width: 500px;
+    margin: auto;
+    text-align: right;
+}
+
+#infos h2 {
+    display: none;
+}
+
+#infos button {
+    display: inline-block;
+}
+
+#infos label {
+    width: 80px;
+    text-align: left;
+    height: auto;
+}
+
+#infos input {
+    width: 400px;
+}
+
+#infos input:hover, #infos input:focus {
+    width: 402px;
+}
+div.post, #newPost {
+    background-color: white;
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    padding: 7px;
+    border-radius: 2px;
+    width: auto;
+}
+
+button {
+    border-radius: 2px;
+    margin-top: 10px;
+    background: #1963E8;
+    height: 30px;
+    border: none;
+    color: white;
+    width: 100%;
+}
+
+button:hover {
+    background: #1CA8FF;
+    cursor: pointer;
+}
+
+.faq {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.faq:last-child {
+    border: 0;
+}
+
+#summary, #answers {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+div.faq p {
+    margin-left: 13px;
+}
+
+img.attachment {
+    width: 100%;
+    max-width: 276px;
+    height: 77px;
+    display: block;
+    margin: auto;
+}
+
+img.profile {
+    display: inline-block;
+    border-radius: 50px;
+    width: 50px;
+    height: 50px;
+}
+
+div.people .user, div.groups .group {
+    font-size: 0.9em;
+}
+
+div.people, div.groups {
+    position: relative;
+}
+
+div.content#login_content {
+    width: 100%;
+}
+
+div.people ul, div.groups ul {
+    list-style-type: none;
+    padding: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+div.message h2{
+    color:green;
+    font-size: 1em;
+}
+
+
+div.message p, div.message li {
+    padding-left: 20px;
+    font-size: 0.8em;
+}
+
+#summary li {
+    list-style-type: square;
+}
+
+aside .grouptitle {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.logoutItem{
+    text-align: center;
+    color:white;
+    margin:0;
+    padding:0;
+    font-size: 0.8em;
+}
+
+.grouptitle img {
+    height: 19px;
+}
+
+aside .title {
+    font-size: 0.7em;
+    color: white;
+    background: #202020;
+    padding: 2px;
+    padding-left: 5px;
+    text-transform: uppercase;
+}
+
+div.state {
+    background: #EEEEEE;
+}
+
+.errors h2{
+    color: #a31010;
+    font-size: 1em;
+    padding-left: 20px;
+}
+.errors li{
+    font-size:0.8em;
+}
+
+
+.logout {
+    float: right;
+}
+
+div.state p {
+    display: inline-block;
+}
+
+.content a[href]:link {
+    text-decoration: none;
+}
+
+.content a[href]:hover {
+    text-decoration: underline;
+}
+
+/*Sezione dei pseudoelementi - tutte le immagini secondarie sono inserite qui sotto*/
+/*Il logo nella schermata di login è solo estetico e si può omettere*/
+
+p.logo::before {
+    content: url(images/logo.png);
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
+
+/* L'immagine in questione è una "i" e non contiene informazione (se non visiva)*/
+
+div.faq h3::before, div.faq h4::before {
+    content: url(images/faq.png);
+    vertical-align: middle;
+    display: inline-block;
+}
+
+/*il logo di nerdbook come opzionale, prima della navbar, è puramente stilistico.*/
+
+nav::before {
+    content: "Nerdbook";
+    display: inline-block;
+    color: white;
+    font-size: 1.2em;
+    margin: auto;
+    text-align: center;
+    width:200px;
+}
+
+
+/*proprietà del p.group*/
+p.group::before, div.message > h2::before, div.errors > h2::before {
+    content: "";
+    background-size: 100% 100%;
+    width: 30px;
+    height: 30px;
+    border-radius: 100px;
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+div.message >h2::before, div.errors > h2::before{
+    vertical-align: middle;
+    width: 20px;
+    height:auto;
+    display:inline-block;
+}
+/* L'immagine fornisce una icona del gruppo, ma non contiene informazione*/
+
+p.group::before {
+    content: url(images/group.png);
+    vertical-align: middle;
+}
+
+/*L'immagine è un triangolino posto prima del titolo h1*/
+
+div.message > h2::before {
+    content: url(images/info_icon.png);
+}
+/*L'immagine è un triangolino posto prima del titolo h1*/
+
+div.errors > h2::before {
+    content: url(images/error_icon.png);
+}
+
+img.profile{
+    width: 50px;
+    height: 50px;
+    display:inline-block;
+    margin-right: 10px;
+    border-radius: 100px;
+    vertical-align: middle;
+}
+img.profile.mini{
+    width: 20px;
+    height:20px;
+    
+}
+
+.inlineblock {
+    display:inline-block;
+    position: absolute;
+}
+
+img.profile.big{
+    width:100px;
+    height:100px;
+}
+
+
+img.profile.sidebar{
+    width: 30px;
+    height:30px;
+}
+friends li{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+p.user{
+    display:inline-block;
+    vertical-align: middle;
+}
+
+
+
+/* aggiungo : prima del nome, per il messaggio personale*/
+
+.state .myself::after {
+    content: ":";
+}
+
+img.group{
+    display:inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+
+/*E per ogni gruppo della aside:*/
+
+p.group::before {
+    margin: 2px;
+}
+
+
+
+/*resizing per tutti gli elementi*/
+@media only screen and (max-width: 480px) {
+    aside {
+        display: none;
+    }
+    nav {
+        width: auto;
+        height: auto;
+        position: relative;
+    }
+    nav::before {
+        content: none;
+    }
+    div.content {
+        width: 100%;
+        padding-top: 10px;
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: 0;
+    }
+    .logout {
+        background: #333333;
+        display: block;
+        margin: auto;
+        width: 100%;
+    }
+    nav ul {
+        display: block;
+    }
+    nav li {
+        display: block;
+    }
+    nav::before {
+        display: block;
+    }
+    input {
+        width: 97.8%;
+    }
+    div.forms {
+        width: 100%;
+        padding: 0;
+        text-align: left;
+    }
+    div.content#login_content {
+        margin-top: 0;
+    }
+    div.post, #newPost {
+        margin: 5%;
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+    #infos{
+        text-align: left;
+        width: 100%;
+    }
+    #infos input{
+        width: 97.8%;
+    }
+    #infos input:hover, #infos input:focus{
+        width: 98%;
+    }
+    .inlineblock {
+        display:none;
+    }
+    nav::before {
+        content:none;
+    }
+    #newPost input {
+        width:98%;
+    }
+    #newPost input:hover, #newPost input:focus {
+        width:99%;
+    }
+    
+    
+    
+}
+
+@media only screen and (min-width:481px) and (max-width: 1024px) {
+    aside {
+        display: none;
+    }
+    div.content {
+        width: 100%;
+        margin-left: 0;
+    }
+    nav {
+        width: 1024px;
+    }
+    .inlineblock {
+        display:none;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    div.content#login_content {
+        margin-left: 0;
+    }
+}

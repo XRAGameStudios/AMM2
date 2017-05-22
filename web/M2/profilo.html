@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Il tuo profilo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Fabio Perra">
+    <link rel="stylesheet" type="text/css" href="style.css" media="screen">
+
+</head>
+
+<body>
+    <div class="page">
+        <header>
+            <h1>Il tuo profilo</h1>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="bacheca.html">Bacheca</a></li>
+                <li class="active"><a href="profilo.html">Profilo</a></li>
+                <li><a href="descrizione.html">FAQ</a></li>
+                <li><a href="login.html">Accedi</a></li>
+
+            </ul>
+            <div class="logout">
+                <a href="login.html" class="a_logout">
+                    <p class="user logoutItem">Fabio Perra</p>
+                    <p class="logoutItem">Logout</p>
+                </a>
+            </div>
+        </nav>
+        <aside>
+            <div>
+                <form action="about:blank" method="POST">
+                    <input class="search" type="text" value="" id="search" name="search" placeholder="Cerca...">
+                </form>
+            </div>
+            <div class="people">
+                <h2 class="title">Persone</h2>
+                <div class="section_content">
+                    <ul>
+                        <li>
+                            <p id="user4" class="user">Giulio Monnezzaro</p>
+                        </li>
+                        <li>
+                            <p id="user5" class="user">Tonio Sgrinzi</p>
+                        </li>
+                        <li>
+                            <p id="user6" class="user">Lella Cespuglia</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="groups">
+                <h2 class="title">Gruppi</h2>
+                <div class="grouptitle">
+                    <a id="add" href="about:blank"><img alt="Crea nuovo gruppo" title="Crea nuovo gruppo" src="images/add.png"></a>
+                </div>
+                <div class="section_content">
+                    <ul>
+                        <li>
+                            <p id="group1" class="group">Stambecchi Vincenti</p>
+                        </li>
+                        <li>
+                            <p id="group2" class="group">Ricicla Software</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+        <div class="content" id="profile">
+            <div id="infos" class="forms">
+                <h2>Inserisci i tuoi dati:</h2>
+                <form action="about:blank" method="post">
+                    <label for="user_name">Nome:</label>
+                    <input type="text" id="user_name" name="user_name" value="Fabio">
+                    <label for="user_surname">Cognome:</label>
+                    <input type="text" id="user_surname" name="user_surname" value="Perra">
+                    <label for="img_profile">URL foto:</label>
+                    <input type="url" id="img_profile" name="img_profile" value="">
+                    <label for="user_phrase">Motto:</label>
+                    <input type="text" id="user_phrase" name="user_phrase" value="Keep calm and follow XRA">
+                    <label for="user_bd">Nato il:</label>
+                    <input type="date" id="user_bd" name="user_bd" value="1994-10-06">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" value="zzzzzz">
+                    <label for="password_conf">Conferma:</label>
+                    <input type="password" id="password_conf" name="password_conf" value="zzzzzz">
+                    <button type="submit">Salva</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

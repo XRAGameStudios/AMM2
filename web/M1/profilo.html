@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Il tuo profilo</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Fabio Perra">
+    </head>
+    <body>
+        <header>
+            <h1>Accedi al tuo account</h1>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="descrizione.html">Informazioni su NerdBook</a></li> 
+                <li><a href="login.html">Accedi al sito</a></li>
+            </ul>
+        </nav>
+        
+        <div id="userRegistration">
+            <h2>Inserisci i tuoi dati:</h2>
+            <form action="about:blank" method="post" >
+                <label for="user_name">Il tuo nome:</label>
+                <input type="text" id="user_name" name="user_name" value="">
+                <br/>
+                <label for="user_surname">Il tuo cognome:</label>
+                <input type="text" id="user_surname" name="user_surname" value="">
+                <br/>
+                <label for="img_profile">URL per l'immagine del profilo:</label>
+                <input type="url" id="img_profile" name="img_profile" value="">
+                <br/>
+                <label for="user_phrase">Scrivi qualcosa su di te:</label>
+                <textarea rows="4" cols="20" id="user_phrase" name="user_phrase">Mi piace...</textarea>
+                <br/>
+                <label for="user_bd">Data di nascita:</label>
+                <input type="date" id="user_bd" name="user_bd" value="">
+                <br/>
+                <label for="password">La tua password:</label>
+                <input type="password" id="password" name="password" value="">
+                <br/>
+                <label for="password_conf">Conferma password:</label>
+                <input type="password" id="password_conf" name="password_conf" value="">
+                <br/>
+                <button type="submit">Salva</button>
+                <button type="reset">Reset</button>
+            </form>
+        </div>
+        
+    </body>
+</html>
