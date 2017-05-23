@@ -70,14 +70,15 @@ public class PostFactory
             Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
             String query =
                     "INSERT INTO " + Tables.user_posts + "(postID,content,type,author,toUser,attachment)" +
-                    " VALUES (?,?,?,?,?,?);";
+                    " VALUES (default,?,?,?,?,?);";
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setInt(1, 1000);
-            stmt.setString(2, post.getContent());
-            stmt.setInt(3, post.getPostType().ordinal());
-            stmt.setInt(4,post.getAuthor().getID());
-            stmt.setInt(5,post.getUser().getID());
-            stmt.setString(6, post.getUrl());
+            stmt.setString(1, post.getContent());
+            stmt.setInt(2, post.getPostType().ordinal());
+            stmt.setInt(3,post.getAuthor().getID());
+            stmt.setInt(4,post.getUser().getID());
+            stmt.setString(5, post.getUrl());
+            stmt.close();
+            conn.close();
         }
         catch (SQLException ex)
         {
@@ -87,7 +88,7 @@ public class PostFactory
         return false;
     }
     //elimina un post del database dato un ID
-    public boolean deleteUserPost(int ID)
+ /*   public boolean deleteUserPost(int ID)
     {
         try
         {
@@ -98,7 +99,8 @@ public class PostFactory
             PreparedStatement stmt = conn.prepareStatement(update);
             conn.setAutoCommit(false);
             stmt.setInt(1, ID);
-            int res = stmt.executeUpdate();
+            stmt.close();
+            conn.close();
             return true;
         }
         catch (SQLException ex)
@@ -108,7 +110,7 @@ public class PostFactory
         return false;
         
     }
-    
+    */
     
     public List<Post> getUserPostsByUser(int ID)
     {
@@ -119,7 +121,7 @@ public class PostFactory
             String query =
                     "SELECT * FROM " + Tables.user_posts +
                     " JOIN " + Tables.postType + " ON " + Columns.userPosts_type + " = " + Columns.postType_id +
-                    " WHERE " + Columns.user_id + " = ?";
+                    " WHERE " + Columns.userPosts_destination + " = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, ID);
             ResultSet res = stmt.executeQuery();
@@ -143,11 +145,11 @@ public class PostFactory
     
     public List<Post> getAllPostsByUser(int ID)
     {
-        List<Post> userpost = this.getUserPostsByUser(ID);
-        List<Post> grouppost = this.getGroupPostsByUser(ID);
+        List<Post> userPosts = this.getUserPostsByUser(ID);
+        List<Post> groupPosts = this.getGroupPostsByUser(ID);
         List<Post> result = new ArrayList<>();
-        result.addAll(userpost);
-        result.addAll(grouppost);
+        result.addAll(userPosts);
+        result.addAll(groupPosts);
         return result;
     }
     
@@ -160,13 +162,13 @@ public class PostFactory
             String query =
                     "SELECT * FROM " + Tables.group_posts +
                     " JOIN " + Tables.postType + " ON " + Columns.groupPosts_type + " = " + Columns.postType_id +
-                    " WHERE "+ Columns.user_id +" = ?";
+                    " WHERE "+ Columns.groupPosts_author +" = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, ID);
             ResultSet res = stmt.executeQuery();
             while (res.next())
             {
-                Post post = makeUserPost(res);
+                Post post = makeGroupPost(res);
                 posts.add(post);
             }
             

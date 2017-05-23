@@ -98,6 +98,7 @@ public class GroupFactory
             Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
             String query =
                     "SELECT * FROM " + Tables.teams +
+                    " JOIN " + Tables.groups + " ON " + Columns.teams_team + " = " + Columns.groups_id +
                     " WHERE " + Columns.teams_joiner + " = ?";
             //prevengo la SQL Injection con il ?
             PreparedStatement stmt = conn.prepareStatement(query);
@@ -139,6 +140,7 @@ public class GroupFactory
             ResultSet res = stmt.executeQuery();
             while(res.next())
             {
+                //non funziona perchè è in un'altra tabella
                 Group group = makeGroup(res);
                 groups.add(group);
                 

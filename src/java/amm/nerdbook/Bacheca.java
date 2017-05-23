@@ -80,7 +80,7 @@ public class Bacheca extends HttpServlet
                 request.setAttribute("user",user);
                 //leggo la lista di post dell'utente che mi è stato richiesto
                 List<Post> posts = new ArrayList<>();
-                posts = PostFactory.getInstance().getAllPostsByUser(user.getID());
+                posts = PostFactory.getInstance().getUserPostsByUser(user.getID());
                 request.setAttribute("posts", posts);
                 //chiamo il mio gestore delle richieste (bacheca.jsp) e gli mando la mia richiesta.
                 return true;
@@ -98,7 +98,7 @@ public class Bacheca extends HttpServlet
             request.setAttribute("user",me);
             //carico i suoi post
             List<Post> posts = new ArrayList<>();
-            posts = PostFactory.getInstance().getUserPostsByUser(me.getID());
+            posts = PostFactory.getInstance().getAllPostsByUser(me.getID());
             request.setAttribute("posts", posts);
             return true;
         }
