@@ -148,7 +148,7 @@ public class PostFactory
         List<Post> result = new ArrayList<>();
         result.addAll(userpost);
         result.addAll(grouppost);
-        return (result);
+        return result;
     }
     
     public List<Post> getGroupPostsByUser(int ID)
@@ -160,7 +160,7 @@ public class PostFactory
             String query =
                     "SELECT * FROM " + Tables.group_posts +
                     " JOIN " + Tables.postType + " ON " + Columns.groupPosts_type + " = " + Columns.postType_id +
-                    " WHERE userID = ?";
+                    " WHERE "+ Columns.user_id +" = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, ID);
             ResultSet res = stmt.executeQuery();
