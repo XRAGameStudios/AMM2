@@ -35,7 +35,7 @@ VALUES (default,'ONLY_TEXT'),
 
 --Creo i post fra utente ed utente
 INSERT INTO userPosts (postID,content,type,author,toUser,attachment)
-VALUES (default,'Il codice da vinci era scritto in C#.',1,1,1,''),
+VALUES (default,'Il codice da vinci è stato scritto in C#.',1,1,1,''),
        (default,'Nuovo progetto XRA Game Studios! Contattatemi per maggiori informazioni.',1,1,1,''),
        (default,'Ciao Fabio, poi mandami il link del gioco, voglio acquistarlo.',2,3,1,'images/attached/buong.jpg'),     
        (default,'Voglio comprare una skin per league of legends.',1,2,2,''),
@@ -46,8 +46,8 @@ VALUES (default,'Il codice da vinci era scritto in C#.',1,1,1,''),
        (default,'Chi vuole sviluppare con me per la Xbox 720?.',1,3,3,''),
        (default,'Cerco donna focosa.',1,7,7,''),
        (default,'Siete tutte monelle! MONELLE!.',1,7,7,''),
-       (default,'Voglio imparare a programmare per android.',1,1,4,''),
-       (default,'mA WINDOWS è SCRIVIBILE CON XCODE????????',1,1,6,'');
+       (default,'Voglio imparare a programmare per android.',1,4,4,''),
+       (default,'mA WINDOWS è SCRIVIBILE CON XCODE????????',1,6,6,'');
        
 --Creo alcuni post all'interno dei gruppi      
 INSERT INTO groupPosts (postID,content,type,author,toGroup,attachment)

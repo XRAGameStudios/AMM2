@@ -97,18 +97,9 @@ public class Login extends HttpServlet
         String ErrorCode = request.getParameter("error");
         if (ErrorCode!=null)
         {
-            switch (ErrorCode)
-            {
-                case "403B":
-                    errors.add("Impossibile accedere alla bacheca: accesso negato. Eseguire prima il login.");
-                    break;
-                case "403P":
-                    errors.add("Impossibile accedere alla sezione profilo: accesso negato. Eseguire prima il login.");
-                    break;
-                default:
-                    errors.add("Errore sconosciuto. Eseguire prima il login.");
-                    break;
-            }
+            if (ErrorCode.equals("403B")) errors.add("Impossibile accedere alla bacheca: accesso negato. Eseguire prima il login.");
+            else if (ErrorCode.equals("403P")) errors.add("Impossibile accedere alla sezione profilo: accesso negato. Eseguire prima il login.");
+            else  errors.add("Errore sconosciuto. Eseguire prima il login.");
         }
     }
     

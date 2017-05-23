@@ -74,9 +74,7 @@ public class GroupFactory
                 stmt.close();
                 conn.close();
                 return group;
-                
             }
-            
             stmt.close();
             conn.close();
             return null;

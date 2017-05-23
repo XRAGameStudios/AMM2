@@ -100,6 +100,13 @@ public class Post
         setAsUserPost();
         
     }
+    public void setPostTypeByString(String type)
+    {
+        if (type.equals("ONLY_TEXT")) setPostType(Post.Type.TEXT);
+        if (type.equals("IMAGE")) setPostType(Post.Type.IMAGE);
+        if (type.equals("URL")) setPostType(Post.Type.URL);
+        else setPostType(Post.Type.IMAGE);
+    }
 
     /**
      * @return the group

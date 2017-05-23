@@ -17,12 +17,14 @@ public class Columns
     public static final String userPosts_type="type";
     public static final String userPosts_author="author";
     public static final String userPosts_destination="toUser";
+    public static final String userPosts_attachment="attachment";
     //tutti i nomi delle colonne della tabella "groupPosts"
     public static final String groupPosts_id="postID";
     public static final String groupPosts_content="content";
     public static final String groupPosts_type="type";
     public static final String groupPosts_author="author";
     public static final String groupPosts_destination="toGroup";
+    public static final String groupPosts_attachment="attachment";
     //tutti i nomi delle colonne della tabella "groups"
     public static final String groups_id="groupID";
     public static final String groups_name="name";

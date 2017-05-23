@@ -41,6 +41,8 @@ public class PostFactory
         Post post = new Post();
         post.setID(res.getInt(Columns.userPosts_id));
         post.setAuthor(UserFactory.getInstance().getUserByID(res.getInt(Columns.userPosts_author)));
+        post.setPostTypeByString(res.getString(Columns.postType_name));
+        post.setUrl(res.getString(Columns.userPosts_attachment));
         post.setUser(UserFactory.getInstance().getUserByID(res.getInt(Columns.userPosts_destination)));
         post.setContent(res.getString(Columns.userPosts_content));
         return post;
@@ -52,6 +54,8 @@ public class PostFactory
         post.setID(res.getInt(Columns.groupPosts_id));
         post.setAuthor(UserFactory.getInstance().getUserByID(res.getInt(Columns.groupPosts_author)));
         post.setGroup(GroupFactory.getInstance().getGroupByID(res.getInt(Columns.groupPosts_destination)));
+        post.setPostTypeByString(res.getString(Columns.postType_name));
+        post.setUrl(res.getString(Columns.groupPosts_attachment));
         post.setContent(res.getString(Columns.groupPosts_content));
         return post;
     }
@@ -88,7 +92,7 @@ public class PostFactory
         return false;
     }
     //elimina un post del database dato un ID
- /*   public boolean deleteUserPost(int ID)
+    public boolean deleteUserPost(int postID)
     {
         try
         {
@@ -97,11 +101,11 @@ public class PostFactory
                     "DELETE FROM " + Tables.user_posts +
                     " WHERE "+ Columns.userPosts_id + " = ?";
             PreparedStatement stmt = conn.prepareStatement(update);
-            conn.setAutoCommit(false);
-            stmt.setInt(1, ID);
+            stmt.setInt(1, postID);
+            int result = stmt.executeUpdate();
             stmt.close();
             conn.close();
-            return true;
+            return (result==1);
         }
         catch (SQLException ex)
         {
@@ -110,7 +114,7 @@ public class PostFactory
         return false;
         
     }
-    */
+    
     
     public List<Post> getUserPostsByUser(int ID)
     {
