@@ -29,7 +29,7 @@ public class UserFactory
     }
     public UserFactory()
     {
-      
+        
     }
     public User makeUser(ResultSet res) throws SQLException
     {
@@ -46,7 +46,7 @@ public class UserFactory
     
     public boolean editUser(int ID, String name, String surname, String password, String date, String imageURL, String status)
     {
-         try
+        try
         {
             Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
             String query =
@@ -81,18 +81,73 @@ public class UserFactory
     
     public boolean deleteUser(int ID)
     {
+        String deleteUserPosts =
+                "DELETE FROM " + Tables.user_posts +
+                " WHERE " + Columns.userPosts_author + " = ? " +
+                " OR " + Columns.userPosts_destination + " = ?";
+        String deleteGroupPosts =
+                "DELETE FROM " + Tables.group_posts +
+                " WHERE " + Columns.groupPosts_author + " = ? ";
+        String deleteFriendships =
+                "DELETE FROM " + Tables.friends +
+                " WHERE " + Columns.friends_followed + " = ? " +
+                " OR " + Columns.friends_follower + " = ?";
+        String deleteUserFromTeam=
+                "DELETE FROM " + Tables.teams +
+                " WHERE " + Columns.teams_joiner + " = ? ";
+        String deleteUser =
+                "DELETE FROM " + Tables.users +
+                " WHERE " + Columns.user_id + " = ? ";
         try
         {
             Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
-            String query =
-                    "DELETE FROM " + Tables.users + 
-                    " WHERE " + Columns.user_id + " = ? ";
-            PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setInt(1, ID);
-            int res = stmt.executeUpdate();
-            stmt.close();
-            conn.close();
-            return (res==1);
+            conn.setAutoCommit(false);
+            PreparedStatement stmt1 = conn.prepareStatement(deleteUserPosts);
+            PreparedStatement stmt2 = conn.prepareStatement(deleteGroupPosts);
+            PreparedStatement stmt3 = conn.prepareStatement(deleteUserFromTeam);
+            PreparedStatement stmt4 = conn.prepareStatement(deleteFriendships);
+            PreparedStatement stmt5= conn.prepareStatement(deleteUser);
+            //imposto le variabili per i vari statement.
+            stmt1.setInt(1, ID);
+            stmt1.setInt(2, ID);
+            stmt2.setInt(1, ID);
+            stmt3.setInt(1, ID);
+            stmt4.setInt(1, ID);
+            stmt4.setInt(2, ID);
+            stmt5.setInt(1, ID);
+            boolean result = false;
+            //eseguo in ordine gli update.
+            try
+            {
+                stmt1.executeUpdate();
+                stmt2.executeUpdate();
+                stmt3.executeUpdate();
+                stmt4.executeUpdate();
+                stmt5.executeUpdate();
+                conn.commit();
+                result = true;
+                
+            }
+            catch (Exception e)
+            {
+                //se ci sono eccezioni vengono scritte qui.
+                e.printStackTrace();
+                //in tal caso il database torna allo stato precedente.
+                conn.rollback();
+                result = false;
+            }
+            finally
+            {
+                conn.setAutoCommit(true);
+                stmt1.close();
+                stmt2.close();
+                stmt3.close();
+                stmt4.close();
+                conn.close();
+                return result;
+                
+            }
+            
         }
         catch(SQLException ex)
         {
@@ -101,6 +156,7 @@ public class UserFactory
         //l'utente non è valido
         return false;
     }
+    
     
     public int getUserIDByUserPassword(String username, String password)
     {

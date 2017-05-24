@@ -28,8 +28,9 @@ public class Profilo extends HttpServlet
                 request.setAttribute("isAdmin", UserFactory.getInstance().checkAdminByID(me.getID()));
                 //carico la sidebar
                 Actions.loadAside(me, request);
+                String readAction = request.getParameter("action");
                 //carico il messaggio, se ho ricevuto il parametro
-                if (request.getParameter("action")!=null && request.getParameter("action").equals("save"))
+                if (readAction!=null && readAction.equals("save"))
                 {
                     String name =request.getParameter("user_name");
                     String surname = request.getParameter("user_surname");
@@ -47,6 +48,16 @@ public class Profilo extends HttpServlet
                     if (UserFactory.getInstance().editUser(me.getID(), name, surname, password, date, imageURL, status))
                         Actions.setMessage("done", request);
                 }
+                else if (readAction!=null && readAction.equals("delete"))
+                {
+                    if(UserFactory.getInstance().deleteUser(me.getID()))
+                    {
+                        //invalido la sessione
+                        request.getSession().invalidate();
+                        request.getRequestDispatcher("login.html").forward(request, response);
+                    }
+                    
+                }
                 request.getRequestDispatcher("profilo.jsp").forward(request, response);
             }
             else
@@ -63,7 +74,7 @@ public class Profilo extends HttpServlet
         
         
     }
-  
+    
     
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

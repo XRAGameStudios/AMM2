@@ -99,7 +99,6 @@ public class PostFactory
         return false;
     }
     
-    
     //crea un oggetto userPost da un risultato di una query
     public Post makeUserPost(ResultSet res) throws SQLException
     {

@@ -38,8 +38,16 @@
                         <button type="submit">Salva</button>
                     </form>
                 </div>
+                <c:if test="${me.ID==user.ID}">
+                    <div class="forms">
+                        <form method="post" action="profilo.html">
+                            <input type="hidden" name="action" value="delete">
+                            <button type="submit" class="delete">Elimina profilo</button>
+                        </form>
+                    </div>
+                </c:if>
             </div>
         </div>
     </body>
-    
+        
 </html>
