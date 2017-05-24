@@ -35,6 +35,9 @@ public class PostFactory
     {
         
     }
+   
+    
+    
     //crea un oggetto userPost da un risultato di una query
     public Post makeUserPost(ResultSet res) throws SQLException
     {
@@ -42,7 +45,7 @@ public class PostFactory
         post.setID(res.getInt(Columns.userPosts_id));
         post.setAuthor(UserFactory.getInstance().getUserByID(res.getInt(Columns.userPosts_author)));
         post.setPostTypeByString(res.getString(Columns.postType_name));
-        post.setUrl(res.getString(Columns.userPosts_attachment));
+        post.setURL(res.getString(Columns.userPosts_attachment));
         post.setUser(UserFactory.getInstance().getUserByID(res.getInt(Columns.userPosts_destination)));
         post.setContent(res.getString(Columns.userPosts_content));
         return post;
@@ -55,19 +58,12 @@ public class PostFactory
         post.setAuthor(UserFactory.getInstance().getUserByID(res.getInt(Columns.groupPosts_author)));
         post.setGroup(GroupFactory.getInstance().getGroupByID(res.getInt(Columns.groupPosts_destination)));
         post.setPostTypeByString(res.getString(Columns.postType_name));
-        post.setUrl(res.getString(Columns.groupPosts_attachment));
+        post.setURL(res.getString(Columns.groupPosts_attachment));
         post.setContent(res.getString(Columns.groupPosts_content));
         return post;
     }
     
-    
-    public Post sendPostToUser (Post post, User user)
-    {
-        post.setUser(user);
-        return post;
-    }
-    
-    public boolean addUserPost (Post post)
+    public boolean addNewUserPost (Post post)
     {
         try
         {
@@ -80,9 +76,11 @@ public class PostFactory
             stmt.setInt(2, post.getPostType().ordinal());
             stmt.setInt(3,post.getAuthor().getID());
             stmt.setInt(4,post.getUser().getID());
-            stmt.setString(5, post.getUrl());
+            stmt.setString(5, post.getURL());
+            int result = stmt.executeUpdate();
             stmt.close();
             conn.close();
+            return (result==1);
         }
         catch (SQLException ex)
         {
@@ -91,6 +89,35 @@ public class PostFactory
         
         return false;
     }
+        
+    public boolean addNewGroupPost (Post post)
+    {
+        try
+        {
+            Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
+            String query =
+                    "INSERT INTO " + Tables.user_posts + "(postID,content,type,author,toGroup,attachment)" +
+                    " VALUES (default,?,?,?,?,?);";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, post.getContent());
+            stmt.setInt(2, post.getPostType().ordinal());
+            stmt.setInt(3,post.getAuthor().getID());
+            stmt.setInt(4,post.getGroup().getID());
+            stmt.setString(5, post.getURL());
+            int result = stmt.executeUpdate();
+            stmt.close();
+            conn.close();
+            return (result==1);
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        
+        return false;
+    }
+    
+    
     //elimina un post del database dato un ID
     public boolean deleteUserPost(int postID)
     {

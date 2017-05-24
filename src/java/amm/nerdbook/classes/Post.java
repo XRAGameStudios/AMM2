@@ -12,14 +12,14 @@ public class Post
     private User author, user;
     private Group group;
     private boolean userPost = true;
-    private String url, content;
+    private String URL, content;
     private Type postType;
     private int ID;
     
     public Post()
     {
         setID(-1);
-        url=content="";
+        URL=content="";
         postType= Type.TEXT;
     }
     
@@ -73,14 +73,14 @@ public class Post
         setPostType(Post.Type.URL);
     }
     
-    public String getUrl()
+    public String getURL()
     {
-        return url;
+        return URL;
     }
     
-    public void setUrl(String url)
+    public void setURL(String url)
     {
-        this.url = url;
+        this.URL = url;
     }
 
     /**
@@ -103,8 +103,8 @@ public class Post
     public void setPostTypeByString(String type)
     {
         if (type.equals("ONLY_TEXT")) setPostType(Post.Type.TEXT);
-        if (type.equals("IMAGE")) setPostType(Post.Type.IMAGE);
-        if (type.equals("URL")) setPostType(Post.Type.URL);
+        else if (type.equals("IMAGE")) setPostType(Post.Type.IMAGE);
+        else if (type.equals("URL")) setPostType(Post.Type.URL);
         else setPostType(Post.Type.IMAGE);
     }
 

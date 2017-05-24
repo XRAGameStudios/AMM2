@@ -44,8 +44,8 @@
                             </a>
                             <p class="message">${post.content}</p>
                             <c:if test="${post.postType=='IMAGE'}">
-                                <a href="${post.url}" target="_blank">
-                                    <img class="attachment" title ="Allegato di ${post.author.name}" alt="Post con foto" src="${post.url}">
+                                <a href="${post.URL}" target="_blank">
+                                    <img class="attachment" title ="Allegato di ${post.author.name}" alt="Post con foto" src="${post.URL}">
                                 </a>
                             </c:if>
                             <c:if test="${post.postType=='URL'}">

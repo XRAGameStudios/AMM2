@@ -53,10 +53,10 @@ public class Actions
     public static boolean isUserCompleted(int ID)
     {
         User u = UserFactory.getInstance().getUserByID(ID);
-        if (u.getName()!=null && u.getSurname()!=null &&
-                u.getImageURL()!=null && u.getStatus()!=null)
-            return true;
-        return false;
+        if (u.getName().isEmpty() || u.getSurname().isEmpty() ||
+                u.getImageURL().isEmpty() || u.getStatus().isEmpty())
+            return false;
+        return true;
     }
     
     public static User findUser(String ID)
@@ -96,7 +96,8 @@ public class Actions
             String content = request.getParameter("content");
             String attachment = request.getParameter("attachment");
             String type = request.getParameter("type");
-            if (content!=null)
+            // se il post contiene del contenuto allora è un post valido.
+            if (!content.isEmpty())
             {
                 post.setContent(content);
                 //l'autore sarà per forza chi ha eseguito il login
@@ -104,10 +105,10 @@ public class Actions
                 //il destinatario l'utente della bacheca.
                 post.setUser(UserFactory.getInstance().getUserByID(Integer.parseInt(userID)));
               //L'utente ha scritto qualcosa. Verifico la presenza dell'attachment
-              if (attachment!=null)
+              if (!attachment.isEmpty())
               {
-                  post.setUrl(attachment);
-                  if (type=="url")
+                  post.setURL(attachment);
+                  if (type.equals("url"))
                       post.setAsURL();
                   else
                       post.setAsImage();

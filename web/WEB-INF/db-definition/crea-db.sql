@@ -12,7 +12,7 @@ CREATE TABLE users(
     email VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(128) NOT NULL,
     url VARCHAR(1024),
-    birthday VARCHAR(15),
+    birthday VARCHAR(35),
     status VARCHAR (1024)
 );
 

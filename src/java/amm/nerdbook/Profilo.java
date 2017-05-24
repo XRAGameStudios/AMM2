@@ -30,7 +30,23 @@ public class Profilo extends HttpServlet
                 Actions.loadAside(me, request);
                 //carico il messaggio, se ho ricevuto il parametro
                 if (request.getParameter("action")!=null && request.getParameter("action").equals("save"))
-                    Actions.setMessage("done", request);
+                {
+                    String name =request.getParameter("user_name");
+                    String surname = request.getParameter("user_surname");
+                    String date = request.getParameter("user_bd");
+                    String status = request.getParameter("user_phrase");
+                    String password = request.getParameter("password");
+                    String imageURL = request.getParameter("img_profile");
+                    //questi servono per aggiornare temporaneamente il profilo subito dopo il click del save.
+                    me.setImageURL(imageURL);
+                    me.setAge(date);
+                    me.setName(name);
+                    me.setSurname(surname);
+                    me.setPassword(password);
+                    //la funzione racchiusa nell'if lo aggiorna in modo permanente
+                    if (UserFactory.getInstance().editUser(me.getID(), name, surname, password, date, imageURL, status))
+                        Actions.setMessage("done", request);
+                }
                 request.getRequestDispatcher("profilo.jsp").forward(request, response);
             }
             else
@@ -47,6 +63,7 @@ public class Profilo extends HttpServlet
         
         
     }
+  
     
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

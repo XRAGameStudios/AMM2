@@ -44,9 +44,45 @@ public class UserFactory
         user.setName(res.getString(Columns.user_name));
         user.setSurname(res.getString(Columns.user_surname));
         user.setStatus(res.getString(Columns.user_status));
+        user.setPassword(res.getString(Columns.user_password));
         user.setImageURL(res.getString(Columns.user_imageURL));
         user.setAge(res.getString(Columns.user_birth));
         return user;
+    }
+    
+    public boolean editUser(int ID, String name, String surname, String password, String date, String imageURL, String status)
+    {
+         try
+        {
+            Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
+            String query =
+                    "UPDATE " + Tables.users + " SET " +
+                    Columns.user_name + " = ?, " +
+                    Columns.user_surname + " = ?, " +
+                    Columns.user_password + " = ?, " +
+                    Columns.user_imageURL + " = ?, " +
+                    Columns.user_status + " = ?, " +
+                    Columns.user_birth + " = ? " +
+                    "WHERE " + Columns.user_id + " = ? ";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, name);
+            stmt.setString(2, surname);
+            stmt.setString(3, password);
+            stmt.setString(4, imageURL);
+            stmt.setString(5, status);
+            stmt.setString(6, date);
+            stmt.setInt(7, ID);
+            int res = stmt.executeUpdate();
+            stmt.close();
+            conn.close();
+            return (res==1);
+        }
+        catch(SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        //l'utente non è valido
+        return false;
     }
     
     public int getUserIDByUserPassword(String username, String password)

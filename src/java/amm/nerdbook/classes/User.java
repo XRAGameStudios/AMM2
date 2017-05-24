@@ -93,10 +93,10 @@ public class User
     
     public String getImageURL()
     {
-        if (imageURL!=null)
-            return imageURL;
-        else
+        if (imageURL.isEmpty())
             return defaultImageURL;
+        else
+            return imageURL;
     }
     
     public void setImageURL(String imageURL)
