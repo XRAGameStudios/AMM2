@@ -58,6 +58,7 @@ public class Post
         return postType;
     }
     
+    
     public void setPostType(Type postType)
     {
         this.postType = postType;
@@ -102,10 +103,10 @@ public class Post
     }
     public void setPostTypeByString(String type)
     {
-        if (type.equals("ONLY_TEXT")) setPostType(Post.Type.TEXT);
+        if (type.equals("ONLY_TEXT") || type.equals("TEXT")) setPostType(Post.Type.TEXT);
         else if (type.equals("IMAGE")) setPostType(Post.Type.IMAGE);
         else if (type.equals("URL")) setPostType(Post.Type.URL);
-        else setPostType(Post.Type.IMAGE);
+        else setPostType(Post.Type.TEXT);
     }
 
     /**

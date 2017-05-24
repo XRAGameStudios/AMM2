@@ -1,5 +1,6 @@
 package amm.nerdbook.classes;
 
+import amm.nerdbook.Actions;
 import amm.nerdbook.database.Admin;
 import amm.nerdbook.database.Columns;
 import amm.nerdbook.database.Tables;
@@ -10,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -35,7 +37,67 @@ public class PostFactory
     {
         
     }
-   
+    
+    public Post makeUserPostByRequest(HttpServletRequest request)
+    {
+        if (request.getParameter("action")!=null && request.getParameter("action").equals("send"))
+        {
+            Post post = new Post();
+            //L'utente ha premuto il tasto "Invia".
+            //Ora ricavo i parametri:
+            String userID = request.getParameter("user");
+            String content = request.getParameter("content");
+            String attachment = request.getParameter("attachment");
+            String type = request.getParameter("type");
+            // se il post contiene del contenuto allora è un post valido.
+            if (!content.isEmpty())
+            {
+                post.setContent(content);
+                //l'autore sarà per forza chi ha eseguito il login
+                post.setAuthor(Actions.getLoggedUser(request));
+                //il destinatario l'utente della bacheca.
+                post.setUser(UserFactory.getInstance().getUserByID(Integer.parseInt(userID)));
+                //L'utente ha scritto qualcosa. Verifico la presenza dell'attachment
+                if (!attachment.isEmpty())
+                {
+                    post.setURL(attachment);
+                    if (type.equals("url"))
+                        post.setAsURL();
+                    else
+                        post.setAsImage();
+                }
+                return post;
+            }
+            return null;
+        }
+        return null;
+    }
+    public boolean addNewUserPostOnDatabase (String content, int type, int authorID, int receiverID, String attachment)
+    {
+        try
+        {
+            Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
+            String query =
+                    "INSERT INTO " + Tables.user_posts + "(postID,content,type,author,toUser,attachment)" +
+                    " VALUES (default,?,?,?,?,?)";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, content);
+            stmt.setInt(2, type);
+            stmt.setInt(3,authorID);
+            stmt.setInt(4,receiverID);
+            stmt.setString(5, attachment);
+            int result = stmt.executeUpdate();
+            stmt.close();
+            conn.close();
+            return (result==1);
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        
+        return false;
+    }
     
     
     //crea un oggetto userPost da un risultato di una query
@@ -70,10 +132,10 @@ public class PostFactory
             Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
             String query =
                     "INSERT INTO " + Tables.user_posts + "(postID,content,type,author,toUser,attachment)" +
-                    " VALUES (default,?,?,?,?,?);";
+                    " VALUES (default,?,?,?,?,?)";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, post.getContent());
-            stmt.setInt(2, post.getPostType().ordinal());
+            stmt.setInt(2, (post.getPostType().ordinal() + 1));
             stmt.setInt(3,post.getAuthor().getID());
             stmt.setInt(4,post.getUser().getID());
             stmt.setString(5, post.getURL());
@@ -89,7 +151,7 @@ public class PostFactory
         
         return false;
     }
-        
+    
     public boolean addNewGroupPost (Post post)
     {
         try
@@ -97,7 +159,7 @@ public class PostFactory
             Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
             String query =
                     "INSERT INTO " + Tables.user_posts + "(postID,content,type,author,toGroup,attachment)" +
-                    " VALUES (default,?,?,?,?,?);";
+                    " VALUES (default,?,?,?,?,?)";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, post.getContent());
             stmt.setInt(2, post.getPostType().ordinal());
@@ -119,16 +181,16 @@ public class PostFactory
     
     
     //elimina un post del database dato un ID
-    public boolean deleteUserPost(int postID)
+    public boolean deleteUserPost(String content)
     {
         try
         {
             Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
             String update =
                     "DELETE FROM " + Tables.user_posts +
-                    " WHERE "+ Columns.userPosts_id + " = ?";
+                    " WHERE "+ Columns.userPosts_content + " = ?";
             PreparedStatement stmt = conn.prepareStatement(update);
-            stmt.setInt(1, postID);
+            stmt.setString(1, content);
             int result = stmt.executeUpdate();
             stmt.close();
             conn.close();

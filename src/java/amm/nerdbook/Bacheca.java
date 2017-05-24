@@ -3,6 +3,7 @@ package amm.nerdbook;
 import amm.nerdbook.classes.Post;
 import amm.nerdbook.classes.PostFactory;
 import amm.nerdbook.classes.User;
+import amm.nerdbook.classes.UserFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class Bacheca extends HttpServlet
 {
+    
+    List<Post> posts = new ArrayList<>();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
@@ -25,17 +28,17 @@ public class Bacheca extends HttpServlet
             {
                 request.setAttribute("logged",true);
                 request.setAttribute("me",me);
-                
+                request.setAttribute("isAdmin", UserFactory.getInstance().checkAdminByID(me.getID()));
                 //carico la sidebar
                 Actions.loadAside(me, request);
-                //leggo la bacheca di un altro utente se è richiesta
-                if (loadUserWall(request))
+                //leggo la bacheca dell'utente a seconda della richiesta.
+                if (canLoadBacheca(request))
                 {
                     //aggiunge un post se è stato inviato
-                    Post newPost = Actions.addPost(request);
+                    Post newPost = PostFactory.getInstance().makeUserPostByRequest(request);
                     if(newPost!=null)
                         //invio il messaggio di conferma se il post è stato correttamente creato.
-                        request.setAttribute("newpost",newPost);
+                        request.setAttribute("newPost",newPost);
                     //se esiste già una conferma, in questo modo appare il messaggio di avvenuto invio.
                     sendConfirmMessage(request);
                     
@@ -60,13 +63,32 @@ public class Bacheca extends HttpServlet
         String destinatario = request.getParameter("for");
         if (action!=null && action.equals("confirm"))
         {
-            if(destinatario!=null)
-                Actions.setMessage(destinatario, request);
+            if (destinatario!=null)
+            {
+                String content = request.getParameter("content");
+                String attachment = request.getParameter("attachment");
+                int type = Actions.convertPostType(request.getParameter("type"));
+                int authorID = Integer.parseInt(request.getParameter("from"));
+                int receiverID =Integer.parseInt(request.getParameter("user"));
+                //per visualizzarlo immediatamente dopo
+                Post post = new Post();
+                post.setContent(content);
+                post.setAuthor(UserFactory.getInstance().getUserByID(authorID));
+                post.setUser(UserFactory.getInstance().getUserByID(receiverID));
+                post.setPostTypeByString(request.getParameter("type"));
+                post.setURL(attachment);
+                posts.add(post);
+                //questo invece lo salverà permanentemente nel database.
+                if (PostFactory.getInstance().addNewUserPostOnDatabase(content, type, authorID, receiverID, attachment))
+                    Actions.setMessage(destinatario, request);
+            }
+            
+            
         }
     }
     
     
-    private boolean loadUserWall(HttpServletRequest request)
+    private boolean canLoadBacheca(HttpServletRequest request)
     {
         //ho bisogno dell'user id dell'utente che voglio mostrare
         String ID = request.getParameter("user");
@@ -79,8 +101,7 @@ public class Bacheca extends HttpServlet
                 //la servlet comunica il suo attributo al gestore del servlet
                 request.setAttribute("user",user);
                 //leggo la lista di post dell'utente che mi è stato richiesto
-                List<Post> posts = new ArrayList<>();
-                posts = PostFactory.getInstance().getUserPostsByUser(user.getID());
+                posts = PostFactory.getInstance().getAllPostsByUser(user.getID());
                 request.setAttribute("posts", posts);
                 //chiamo il mio gestore delle richieste (bacheca.jsp) e gli mando la mia richiesta.
                 return true;
@@ -97,7 +118,6 @@ public class Bacheca extends HttpServlet
             //l'utente "user" corrisponde con il proprietario.
             request.setAttribute("user",me);
             //carico i suoi post
-            List<Post> posts = new ArrayList<>();
             posts = PostFactory.getInstance().getAllPostsByUser(me.getID());
             request.setAttribute("posts", posts);
             return true;

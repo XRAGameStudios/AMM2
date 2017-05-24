@@ -17,22 +17,16 @@ import java.util.List;
  */
 public class UserFactory
 {
-    //----------------------------------------------------------------------------------------
-    //tutti i metodi sql vanno scritti SOLO qui. tutti i metodi vanno rinominati nel campo ID
     private String connectionString;
     private static UserFactory singleton;
     public static UserFactory getInstance()
     {
-        //se non è già istanziato mi creo una copia statica, altrimenti me lo restituisce
         if (singleton==null)
         {
             singleton = new UserFactory();
         }
         return singleton;
     }
-    // devo richiamare il factory con un UtenteFactory uf = UtenteFactory.getInstance();
-    //-----------------------------------------------------------------------------------------
-    
     public UserFactory()
     {
       
@@ -72,6 +66,29 @@ public class UserFactory
             stmt.setString(5, status);
             stmt.setString(6, date);
             stmt.setInt(7, ID);
+            int res = stmt.executeUpdate();
+            stmt.close();
+            conn.close();
+            return (res==1);
+        }
+        catch(SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        //l'utente non è valido
+        return false;
+    }
+    
+    public boolean deleteUser(int ID)
+    {
+        try
+        {
+            Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
+            String query =
+                    "DELETE FROM " + Tables.users + 
+                    " WHERE " + Columns.user_id + " = ? ";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, ID);
             int res = stmt.executeUpdate();
             stmt.close();
             conn.close();

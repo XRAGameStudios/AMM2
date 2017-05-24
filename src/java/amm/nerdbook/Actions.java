@@ -74,52 +74,21 @@ public class Actions
     
     public static void setMessage(String message, HttpServletRequest request)
     {
-        switch (message)
-        {
-            //messaggi predefiniti
-            case "done":
-                request.setAttribute("message", "I tuoi dati sono stati aggiornati correttamente.");
-                break;
-            //messaggi personalizzati per bacheca.  
-            default:
-                request.setAttribute("message", "Hai appena scritto sulla bacheca di " + message);
-        }
+        if (message.equals("done"))
+            request.setAttribute("message", "I tuoi dati sono stati aggiornati correttamente.");
+        else
+            request.setAttribute("message", "Hai appena scritto sulla bacheca di " + message);
+        
     }
-    public static Post addPost(HttpServletRequest request)
-    {
-        if (request.getParameter("action")!=null && request.getParameter("action").equals("send"))
-        {
-            Post post = new Post();
-            //L'utente ha premuto il tasto "Invia".
-            //Ora ricavo i parametri:
-            String userID = request.getParameter("user");
-            String content = request.getParameter("content");
-            String attachment = request.getParameter("attachment");
-            String type = request.getParameter("type");
-            // se il post contiene del contenuto allora è un post valido.
-            if (!content.isEmpty())
-            {
-                post.setContent(content);
-                //l'autore sarà per forza chi ha eseguito il login
-                post.setAuthor(Actions.getLoggedUser(request));
-                //il destinatario l'utente della bacheca.
-                post.setUser(UserFactory.getInstance().getUserByID(Integer.parseInt(userID)));
-              //L'utente ha scritto qualcosa. Verifico la presenza dell'attachment
-              if (!attachment.isEmpty())
-              {
-                  post.setURL(attachment);
-                  if (type.equals("url"))
-                      post.setAsURL();
-                  else
-                      post.setAsImage();
-              }
-              return post;
-            }
-            return null;
-        }
-        return null;
-    }
+   
     
+    public static int convertPostType (String type)
+    {
+        if (type.equals("TEXT")) return 1;
+        if (type.equals("IMAGE")) return 2;
+        if (type.equals("URL")) return 3;
+        return 1;
+    }
     
     
 }
