@@ -18,24 +18,24 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Bacheca</servlet-name>
-        <url-pattern>/M3/bacheca.html</url-pattern>
+        <url-pattern>/bacheca.html</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Profilo</servlet-name>
-        <url-pattern>/M3/profilo.html</url-pattern>
+        <url-pattern>/profilo.html</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
-        <url-pattern>/M3/login.html</url-pattern>
+        <url-pattern>/login.html</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Descrizione</servlet-name>
-        <url-pattern>/M3/descrizione.html</url-pattern>
+        <url-pattern>/descrizione.html</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>M3/descrizione.html</welcome-file>
+        <welcome-file>descrizione.html</welcome-file>
     </welcome-file-list>
 </web-app>
