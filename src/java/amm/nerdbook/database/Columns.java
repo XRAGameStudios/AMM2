@@ -29,6 +29,7 @@ public class Columns
     public static final String groups_id="groupID";
     public static final String groups_name="name";
     public static final String groups_icon="icon";
+    public static final String groups_founder="founder";
     //tutti i nomi delle colonne della tabella "postType"
     public static final String postType_id="postTypeID";
     public static final String postType_name="name";

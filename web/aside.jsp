@@ -35,18 +35,10 @@
                 <!--L'icona è un pseudoelemento-->
                 <c:forEach var="group" items="${groups}">
                     <li>
-                        <p id="group" class="group">${group.name}</p>
+                        <p id="${group.icon}" class="group">${group.name}</p>
                     </li>
                 </c:forEach>
             </ul>
         </div>
     </div>
-    <c:if test="${isAdmin}">
-        <div class="deleteDiv">
-            <h2 class="title">Pannello di amministrazione</h2>
-            <ul>
-                <li><a href="profilo.html?action=delete&user=${user.ID}">Elimina il profilo</a></li>
-            </ul>
-        </div>
-    </c:if>
 </aside>

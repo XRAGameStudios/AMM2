@@ -436,7 +436,7 @@ nav::before {
 
 
 /*proprietà del p.group*/
-p.group::before, div.message > h2::before, div.errors > h2::before {
+#group1::before, #group2::before, #group3::before, div.message > h2::before, div.errors > h2::before {
     content: "";
     background-size: 100% 100%;
     width: 30px;
@@ -454,10 +454,16 @@ div.message >h2::before, div.errors > h2::before{
 }
 /* L'immagine fornisce una icona del gruppo, ma non contiene informazione*/
 
-p.group::before {
-    content: url(images/group.png);
-    vertical-align: middle;
+#group1::before {
+    content: url(images/groups/group.png);
 }
+#group2::before {
+    content: url(images/groups/group1.png);
+}
+#group3::before {
+    content: url(images/groups/group2.png);
+}
+
 
 /*L'immagine è un triangolino posto prima del titolo h1*/
 

@@ -95,6 +95,11 @@ public class UserFactory
         String deleteUserFromTeam=
                 "DELETE FROM " + Tables.teams +
                 " WHERE " + Columns.teams_joiner + " = ? ";
+        //imposto il fondatore del gruppo. Inserisco l'ID dell'amministratore(che conosco a priori).
+        String changeGroupFounder =
+                "UPDATE " + Tables.groups + " SET " +
+                Columns.groups_founder + " = 1 WHERE " + 
+                Columns.groups_founder + " = ?";
         String deleteUser =
                 "DELETE FROM " + Tables.users +
                 " WHERE " + Columns.user_id + " = ? ";
@@ -106,7 +111,9 @@ public class UserFactory
             PreparedStatement stmt2 = conn.prepareStatement(deleteGroupPosts);
             PreparedStatement stmt3 = conn.prepareStatement(deleteUserFromTeam);
             PreparedStatement stmt4 = conn.prepareStatement(deleteFriendships);
-            PreparedStatement stmt5= conn.prepareStatement(deleteUser);
+            PreparedStatement stmt5 = conn.prepareStatement(changeGroupFounder);
+            
+            PreparedStatement stmt6= conn.prepareStatement(deleteUser);
             //imposto le variabili per i vari statement.
             stmt1.setInt(1, ID);
             stmt1.setInt(2, ID);
@@ -115,6 +122,7 @@ public class UserFactory
             stmt4.setInt(1, ID);
             stmt4.setInt(2, ID);
             stmt5.setInt(1, ID);
+            stmt6.setInt(1, ID);
             boolean result = false;
             //eseguo in ordine gli update.
             try
@@ -124,6 +132,7 @@ public class UserFactory
                 stmt3.executeUpdate();
                 stmt4.executeUpdate();
                 stmt5.executeUpdate();
+                stmt6.executeUpdate();
                 conn.commit();
                 result = true;
                 

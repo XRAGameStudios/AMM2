@@ -4,14 +4,14 @@
 <html>
     <c:set var="title" value="Il tuo profilo" scope="request"/>
     <jsp:include page="head.jsp"/>
-        
+    
     <body>
         <div class="page">
             <jsp:include page="header.jsp"/>
             <c:set var="page" value="profilo" scope="request"/>
             <jsp:include page="navbar.jsp"/>
             <jsp:include page="aside.jsp"/>    
-                
+            
             <div class="content" id="profile">
                 <jsp:include page="message.jsp"/>
                 <div class="inlineblock">
@@ -40,14 +40,19 @@
                 </div>
                 <c:if test="${me.ID==user.ID}">
                     <div class="forms">
-                        <form method="post" action="profilo.html">
-                            <input type="hidden" name="action" value="delete">
-                            <button type="submit" class="delete">Elimina profilo</button>
-                        </form>
+                        <c:if test="${not isAdmin}">
+                            <form method="post" action="profilo.html">
+                                <input type="hidden" name="action" value="delete">
+                                <button type="submit" class="delete">Elimina profilo</button>
+                            </form>
+                        </c:if>
+                        <c:if test="${isAdmin}">
+                            <p>Sei un amministratore. Non puoi cancellare il tuo profilo.</p>
+                        </c:if>
                     </div>
                 </c:if>
             </div>
         </div>
     </body>
-        
+    
 </html>

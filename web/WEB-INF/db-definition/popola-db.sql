@@ -22,10 +22,10 @@ VALUES (1,2),
        (4,6);
 
 --Creo ora i vari gruppi del sito.
-INSERT INTO groups (groupID,name,icon)
-VALUES (default,'XRA Game Studios','images/group/group1.png'),
-       (default,'I monnezzari','images/group/group2.png'),
-       (default,'DOTA 2','images/group/group3.png');
+INSERT INTO groups (groupID,name,icon,founder)
+VALUES (default,'XRA Game Studios','group1',1),
+       (default,'I monnezzari','group2',5),
+       (default,'DOTA 2','group3',6);
 
 --Creo i tipi di post.
 INSERT INTO postType(postTypeID,name)
