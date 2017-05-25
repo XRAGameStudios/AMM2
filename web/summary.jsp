@@ -8,7 +8,12 @@
             <ul>
                 <li>Contenuto del post: ${newPost.content}</li>
                 <li>Autore: ${newPost.author.fullname}</li>
-                <li>Destinatario: ${newPost.user.fullname}</li>
+                    <c:if test="${empty team}">
+                    <li>Destinatario: ${newPost.user.fullname}</li>
+                    </c:if>
+                    <c:if test="${not empty team}">
+                    <li>Destinatario: ${newPost.group.name}</li>
+                    </c:if>
                 <li>Tipo: ${newPost.postType}</li>
                 <li>Link in allegato: ${newPost.URL}</li>
             </ul>
@@ -20,6 +25,7 @@
                 <input type="hidden" name="attachment" value="${newPost.URL}">
                 <input type="hidden" name="type" value="${newPost.postType}">
                 <input type="hidden" name="user" value="${newPost.user.ID}">
+                <input type="hidden" name="team" value="${newPost.group.ID}">
                 <input type="hidden" name="from" value="${newPost.author.ID}">
                 <input type="hidden" name="for" value="${newPost.user.fullname}">
                 <button type="submit">Conferma</button>

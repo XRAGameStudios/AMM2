@@ -37,6 +37,40 @@ public class PostFactory
     {
         
     }
+    public Post makeGroupPostByRequest(HttpServletRequest request)
+    {
+        if (request.getParameter("action")!=null && request.getParameter("action").equals("send"))
+        {
+            Post post = new Post();
+            //L'utente ha premuto il tasto "Invia".
+            //Ora ricavo i parametri:
+            String teamID = request.getParameter("team");
+            String content = request.getParameter("content");
+            String attachment = request.getParameter("attachment");
+            String type = request.getParameter("type");
+            // se il post contiene del contenuto allora è un post valido.
+            if (!content.isEmpty())
+            {
+                post.setContent(content);
+                //l'autore sarà per forza chi ha eseguito il login
+                post.setAuthor(Actions.getLoggedUser(request));
+                //il destinatario l'utente della bacheca.
+                post.setGroup(GroupFactory.getInstance().getGroupByID(Integer.parseInt(teamID)));
+                //L'utente ha scritto qualcosa. Verifico la presenza dell'attachment
+                if (!attachment.isEmpty())
+                {
+                    post.setURL(attachment);
+                    if (type.equals("url"))
+                        post.setAsURL();
+                    else
+                        post.setAsImage();
+                }
+                return post;
+            }
+            return null;
+        }
+        return null;
+    }
     
     public Post makeUserPostByRequest(HttpServletRequest request)
     {
@@ -79,6 +113,32 @@ public class PostFactory
             Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
             String query =
                     "INSERT INTO " + Tables.user_posts + "(postID,content,type,author,toUser,attachment)" +
+                    " VALUES (default,?,?,?,?,?)";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, content);
+            stmt.setInt(2, type);
+            stmt.setInt(3,authorID);
+            stmt.setInt(4,receiverID);
+            stmt.setString(5, attachment);
+            int result = stmt.executeUpdate();
+            stmt.close();
+            conn.close();
+            return (result==1);
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        
+        return false;
+    }
+    public boolean addNewGroupPostOnDatabase (String content, int type, int authorID, int receiverID, String attachment)
+    {
+        try
+        {
+            Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
+            String query =
+                    "INSERT INTO " + Tables.group_posts + "(postID,content,type,author,toGroup,attachment)" +
                     " VALUES (default,?,?,?,?,?)";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, content);
@@ -202,7 +262,36 @@ public class PostFactory
         return false;
         
     }
-    
+    public List<Post> getPostsByGroupID (int ID)
+    {
+          List<Post> posts = new ArrayList<>();
+        try
+        {
+            Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
+            String query =
+                    "SELECT * FROM " + Tables.group_posts +
+                    " JOIN " + Tables.postType + " ON " + Columns.userPosts_type + " = " + Columns.postType_id +
+                    " JOIN " + Tables.groups + " ON " + Columns.groupPosts_destination + " = " + Columns.groups_id +        
+                    " WHERE " + Columns.groupPosts_destination + " = ?";
+               PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, ID);
+            ResultSet res = stmt.executeQuery();
+            while (res.next())
+            {
+                Post post = makeGroupPost(res);
+                posts.add(post);
+            }
+            
+            stmt.close();
+            conn.close();
+            return posts;
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        return null;
+    }
     
     public List<Post> getUserPostsByUser(int ID)
     {

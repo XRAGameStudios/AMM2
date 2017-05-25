@@ -1,5 +1,7 @@
 package amm.nerdbook;
 
+import amm.nerdbook.classes.Group;
+import amm.nerdbook.classes.GroupFactory;
 import amm.nerdbook.classes.Post;
 import amm.nerdbook.classes.PostFactory;
 import amm.nerdbook.classes.User;
@@ -31,8 +33,20 @@ public class Bacheca extends HttpServlet
                 request.setAttribute("isAdmin", UserFactory.getInstance().checkAdminByID(me.getID()));
                 //carico la sidebar
                 Actions.loadAside(me, request);
-                //leggo la bacheca dell'utente a seconda della richiesta.
-                if (canLoadBacheca(request))
+                //Leggo il team o il post.
+                if (canLoadTeam(request))
+                {
+                    //aggiunge un post se è stato inviato
+                    Post newPost = PostFactory.getInstance().makeGroupPostByRequest(request);
+                    if(newPost!=null)
+                        //invio il messaggio di conferma se il post è stato correttamente creato.
+                        request.setAttribute("newPost",newPost);
+                    //se esiste già una conferma, in questo modo appare il messaggio di avvenuto invio.
+                    sendConfirmMessage(false, request);
+                    
+                    request.getRequestDispatcher("bacheca.jsp").forward(request, response);
+                }
+                else if (canLoadBacheca(request))
                 {
                     //aggiunge un post se è stato inviato
                     Post newPost = PostFactory.getInstance().makeUserPostByRequest(request);
@@ -40,7 +54,7 @@ public class Bacheca extends HttpServlet
                         //invio il messaggio di conferma se il post è stato correttamente creato.
                         request.setAttribute("newPost",newPost);
                     //se esiste già una conferma, in questo modo appare il messaggio di avvenuto invio.
-                    sendConfirmMessage(request);
+                    sendConfirmMessage(true,request);
                     
                     //carico la jsp
                     request.getRequestDispatcher("bacheca.jsp").forward(request, response);
@@ -49,6 +63,7 @@ public class Bacheca extends HttpServlet
                 {
                     response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 }
+                
             }
             else
                 request.getRequestDispatcher("login.html?error=403B").forward(request, response);
@@ -57,7 +72,7 @@ public class Bacheca extends HttpServlet
             request.getRequestDispatcher("login.html?error=403B").forward(request, response);
     }
     
-    private void sendConfirmMessage(HttpServletRequest request)
+    private void sendConfirmMessage(boolean forUser, HttpServletRequest request)
     {
         String action = request.getParameter("action");
         String destinatario = request.getParameter("for");
@@ -69,22 +84,63 @@ public class Bacheca extends HttpServlet
                 String attachment = request.getParameter("attachment");
                 int type = Actions.convertPostType(request.getParameter("type"));
                 int authorID = Integer.parseInt(request.getParameter("from"));
-                int receiverID =Integer.parseInt(request.getParameter("user"));
-                //per visualizzarlo immediatamente dopo
+                
+                int receiverID;
+                if (forUser)
+                    receiverID =Integer.parseInt(request.getParameter("user"));
+                else
+                    receiverID = Integer.parseInt(request.getParameter("team"));
+                //questo codice è inserito per visualizzare nell'immediato il codice (senza ricaricare la servlet).
                 Post post = new Post();
                 post.setContent(content);
                 post.setAuthor(UserFactory.getInstance().getUserByID(authorID));
-                post.setUser(UserFactory.getInstance().getUserByID(receiverID));
+                if (forUser)
+                    post.setUser(UserFactory.getInstance().getUserByID(receiverID));
+                else
+                    post.setGroup(GroupFactory.getInstance().getGroupByID(receiverID));
                 post.setPostTypeByString(request.getParameter("type"));
                 post.setURL(attachment);
                 posts.add(post);
                 //questo invece lo salverà permanentemente nel database.
-                if (PostFactory.getInstance().addNewUserPostOnDatabase(content, type, authorID, receiverID, attachment))
-                    Actions.setMessage(destinatario, request);
+                if (forUser)
+                {
+                    if (PostFactory.getInstance().addNewUserPostOnDatabase(content, type, authorID, receiverID, attachment))
+                        Actions.setMessage(destinatario, request);
+                }
+                else
+                {
+                    if (PostFactory.getInstance().addNewGroupPostOnDatabase(content, type, authorID, receiverID, attachment))
+                        Actions.setMessage(destinatario, request);
+                }
             }
             
             
         }
+    }
+    
+    private boolean canLoadTeam (HttpServletRequest request)
+    {
+        String team = request.getParameter("team");
+        
+        // voglio pescare il parametro "team" (?user=x oppure ?...&user=x).
+        if (team!=null) //ovvero, se presente il parametro
+        {
+            int ID = Integer.parseInt(team);
+            Group group = GroupFactory.getInstance().getGroupByID(ID);
+            if (group!=null)
+            {
+                //la servlet comunica il suo attributo al gestore del servlet
+                request.setAttribute("team",group);
+                //leggo la lista di post dell'utente che mi è stato richiesto
+                posts = PostFactory.getInstance().getPostsByGroupID(ID);
+                request.setAttribute("posts", posts);
+                //chiamo il mio gestore delle richieste (bacheca.jsp) e gli mando la mia richiesta.
+                return true;
+            }
+            //l'utente con quel codice non esiste. C'è un errore e mando in false il metodo.
+            return false;
+        }
+        return false;
     }
     
     
@@ -106,9 +162,8 @@ public class Bacheca extends HttpServlet
                 //chiamo il mio gestore delle richieste (bacheca.jsp) e gli mando la mia richiesta.
                 return true;
             }
-            else
-                //l'utente con quel codice non esiste. C'è un errore e mando in false il metodo.
-                return false;
+            
+            return false;
         }
         else
         {
@@ -125,7 +180,7 @@ public class Bacheca extends HttpServlet
         
     }
     
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

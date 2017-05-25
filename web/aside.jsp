@@ -35,7 +35,7 @@
                 <!--L'icona è un pseudoelemento-->
                 <c:forEach var="group" items="${groups}">
                     <li>
-                        <p id="${group.icon}" class="group">${group.name}</p>
+                        <p id="${group.icon}" class="group"><a href="bacheca.html?team=${group.ID}">${group.name}</a></p>
                     </li>
                 </c:forEach>
             </ul>
