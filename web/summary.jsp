@@ -27,7 +27,10 @@
                 <input type="hidden" name="user" value="${newPost.user.ID}">
                 <input type="hidden" name="team" value="${newPost.group.ID}">
                 <input type="hidden" name="from" value="${newPost.author.ID}">
-                <input type="hidden" name="for" value="${newPost.user.fullname}">
+                
+                <input type="hidden" name="for" 
+                       <c:if test="${empty team}"> value="${newPost.user.fullname}"</c:if>
+                       <c:if test="${not empty team}"> value="${newPost.group.name}"</c:if>>
                 <button type="submit">Conferma</button>
             </form>
         </div>
