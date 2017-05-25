@@ -8,7 +8,7 @@
             <li <c:if test="${page=='bacheca'}">class="active"</c:if> ><a href="bacheca.html">Bacheca</a></li> 
             <li <c:if test="${page=='profilo'}">class="active"</c:if> ><a href="profilo.html">Profilo</a></li> 
             </c:if>
-        <li <c:if test="${page=='descrizione'}">class="active"</c:if> ><a href="descrizione.html">FAQ</a></li>
+            <li <c:if test="${page=='descrizione'}">class="active"</c:if> ><a href="descrizione.html">FAQ</a></li>
             <c:if test="${logged=='false'}">
             <li <c:if test="${page=='login'}">class="active"</c:if> ><a href="login.html">Accedi</a></li>    
             </c:if>

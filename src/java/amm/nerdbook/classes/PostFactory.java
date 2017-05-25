@@ -240,16 +240,16 @@ public class PostFactory
     
     
     //elimina un post del database dato un ID
-    public boolean deleteUserPost(String content)
+    public boolean deleteUserPost(int ID)
     {
         try
         {
             Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
             String update =
                     "DELETE FROM " + Tables.user_posts +
-                    " WHERE "+ Columns.userPosts_content + " = ?";
+                    " WHERE "+ Columns.userPosts_id + " = ?";
             PreparedStatement stmt = conn.prepareStatement(update);
-            stmt.setString(1, content);
+            stmt.setInt(1, ID);
             int result = stmt.executeUpdate();
             stmt.close();
             conn.close();
@@ -262,6 +262,30 @@ public class PostFactory
         return false;
         
     }
+    public boolean deleteGroupPost(int ID)
+    {
+        try
+        {
+            Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
+            String update =
+                    "DELETE FROM " + Tables.group_posts +
+                    " WHERE "+ Columns.groupPosts_id + " = ?";
+            PreparedStatement stmt = conn.prepareStatement(update);
+            stmt.setInt(1, ID);
+            int result = stmt.executeUpdate();
+            stmt.close();
+            conn.close();
+            return (result==1);
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        return false;
+        
+    }
+    
+    
     public List<Post> getPostsByGroupID (int ID)
     {
           List<Post> posts = new ArrayList<>();

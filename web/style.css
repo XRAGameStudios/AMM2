@@ -360,6 +360,7 @@ aside .grouptitle {
     font-size: 0.8em;
 }
 
+
 .grouptitle img {
     height: 19px;
 }
@@ -535,7 +536,13 @@ img.group{
 p.group::before {
     margin: 2px;
 }
-
+p.group a{
+    text-decoration: none;
+}
+p.group a:active, p.group a:visited,p.group a:hover{
+    color:#202020;
+    text-decoration: underline;
+}
 
 
 /*resizing per tutti gli elementi*/

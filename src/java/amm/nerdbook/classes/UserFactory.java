@@ -44,6 +44,7 @@ public class UserFactory
         return user;
     }
     
+ 
     public boolean editUser(int ID, String name, String surname, String password, String date, String imageURL, String status)
     {
         try
@@ -78,6 +79,8 @@ public class UserFactory
         //l'utente non è valido
         return false;
     }
+    
+    
     
     public boolean deleteUser(int ID)
     {
@@ -152,6 +155,8 @@ public class UserFactory
                 stmt2.close();
                 stmt3.close();
                 stmt4.close();
+                stmt5.close();
+                stmt6.close();
                 conn.close();
                 return result;
                 

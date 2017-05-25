@@ -36,7 +36,7 @@ public class Bacheca extends HttpServlet
                 //Leggo il team o il post.
                 if (canLoadTeam(request))
                 {
-                    //aggiunge un post se è stato inviato
+                    //crea un post di gruppo, se è stato inviato tramite richiesta
                     Post newPost = PostFactory.getInstance().makeGroupPostByRequest(request);
                     if(newPost!=null)
                         //invio il messaggio di conferma se il post è stato correttamente creato.
@@ -127,8 +127,11 @@ public class Bacheca extends HttpServlet
         {
             int ID = Integer.parseInt(team);
             Group group = GroupFactory.getInstance().getGroupByID(ID);
+            
             if (group!=null)
             {
+                //verifico che l'utente sia il fondatore del gruppo.
+                request.setAttribute("isFounder", GroupFactory.getInstance().checkGroupFounder(Actions.getLoggedUser(request).getID()));
                 //la servlet comunica il suo attributo al gestore del servlet
                 request.setAttribute("team",group);
                 //leggo la lista di post dell'utente che mi è stato richiesto

@@ -52,6 +52,43 @@ public class GroupFactory
         return group;
     }
     
+    public boolean checkGroupFounder (int ID)
+    {
+        try
+        {
+            Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
+            String query =
+                    "SELECT * FROM " + Tables.groups +
+                    " WHERE " + Columns.groups_founder + " = ?";
+            //prevengo la SQL Injection con il ?
+            PreparedStatement stmt = conn.prepareStatement(query);
+            //processa query ed identifica i punti di domanda dove inserire gli attributi.
+            stmt.setInt(1, ID);
+            //ricordarsi che l'indice parte da 1 e non da 0 per lo statement.
+            ResultSet res = stmt.executeQuery();
+            //restituisce un set di risultati della query, che non sa cosa è.
+            //mi aspettto solo al più un risultato.
+            if(res.next())
+            {
+               stmt.close();
+               conn.close();
+               return true;
+            }
+            
+            stmt.close();
+            conn.close();
+            return false;
+        }
+        catch(SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+    
+    
+    
+    
     public Group getGroupByID(int ID)
     {
         try
@@ -125,7 +162,7 @@ public class GroupFactory
     }
     
     
-  // trova tutti i gruppi in cui un utente si è iscritto
+    // trova tutti i gruppi in cui un utente si è iscritto
     public List<Group> getAllGroups()
     {
         List<Group> groups = new ArrayList<>();
@@ -153,6 +190,67 @@ public class GroupFactory
             ex.printStackTrace();
         }
         return null;
+    }
+    
+    public boolean deleteGroup(int ID)
+    {
+        String deleteTeamMates =
+                "DELETE FROM " + Tables.teams +
+                " WHERE " + Columns.teams_team + " = ? ";
+        
+        String deleteGroupPosts =
+                "DELETE FROM " + Tables.group_posts +
+                " WHERE " + Columns.groupPosts_destination + " = ? ";
+        String deleteGroup =
+                "DELETE FROM " + Tables.groups +
+                " WHERE " + Columns.groups_id + " = ? ";
+        try
+        {
+            Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
+            conn.setAutoCommit(false);
+            PreparedStatement stmt1 = conn.prepareStatement(deleteTeamMates);
+            PreparedStatement stmt2 = conn.prepareStatement(deleteGroupPosts);
+            PreparedStatement stmt3 = conn.prepareStatement(deleteGroup);
+            //imposto le variabili per i vari statement.
+            stmt1.setInt(1, ID);
+            stmt2.setInt(1, ID);
+            stmt3.setInt(1, ID);
+            boolean result = false;
+            //eseguo in ordine gli update.
+            try
+            {
+                stmt1.executeUpdate();
+                stmt2.executeUpdate();
+                stmt3.executeUpdate();
+                conn.commit();
+                result = true;
+                
+            }
+            catch (Exception e)
+            {
+                //se ci sono eccezioni vengono scritte qui.
+                e.printStackTrace();
+                //in tal caso il database torna allo stato precedente.
+                conn.rollback();
+                result = false;
+            }
+            finally
+            {
+                conn.setAutoCommit(true);
+                stmt1.close();
+                stmt2.close();
+                stmt3.close();
+                conn.close();
+                return result;
+                
+            }
+            
+        }
+         catch (SQLException ex)
+        {
+         ex.printStackTrace();
+        }
+       return false;
     }
     
     
