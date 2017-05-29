@@ -16,6 +16,10 @@
         <servlet-name>Descrizione</servlet-name>
         <servlet-class>amm.nerdbook.Descrizione</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Finder</servlet-name>
+        <servlet-class>amm.nerdbook.Filter</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Bacheca</servlet-name>
         <url-pattern>/bacheca.html</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>Descrizione</servlet-name>
         <url-pattern>/descrizione.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Filter</servlet-name>
+        <url-pattern>/filter.json</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

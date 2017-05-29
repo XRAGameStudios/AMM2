@@ -295,6 +295,40 @@ public class UserFactory
         }
         return null;
     }
+    
+    public List<User> searchUsersByName (String name)
+    {
+        List<User> users = new ArrayList<>();
+        
+        try
+        {
+            Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
+            String query =
+                    "SELECT * FROM " + Tables.users +
+                    " WHERE " + Columns.user_name + " LIKE ? " +
+                    " OR "  + Columns.user_name + " LIKE ? ";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            String searchString = "%" + name + "%";
+            //processa query ed identifica i punti di domanda dove inserire gli attributi.
+            stmt.setString(1, searchString);
+            stmt.setString(2, searchString);
+            ResultSet res = stmt.executeQuery();
+            while(res.next())
+            {
+                User user = makeUser(res);
+                users.add(user);
+            }
+            stmt.close();
+            conn.close();
+            return users;
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+    
     public void setConnectionString(String s){
         this.connectionString = s;
     }
