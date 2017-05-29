@@ -17,7 +17,7 @@
         <servlet-class>amm.nerdbook.Descrizione</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>Finder</servlet-name>
+        <servlet-name>Filter</servlet-name>
         <servlet-class>amm.nerdbook.Filter</servlet-class>
     </servlet>
     <servlet-mapping>

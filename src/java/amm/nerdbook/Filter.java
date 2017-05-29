@@ -36,14 +36,14 @@ public class Filter extends HttpServlet {
         {
             if (command.equals("search"))
             {
-                List<User> users = UserFactory.getInstance().searchUsersByName(request.getParameter("nomeUtenteCercato"));
+                List<User> users = UserFactory.getInstance().searchUsersByName(request.getParameter("q"));
                 //l'ultimo parametro è dato da js
                 request.setAttribute("foundUsers", users);
                 response.setContentType("application/json");
                 response.setHeader("Expires", "Sat, 6 May 1995 12:00:00 GMT");
                 response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
                 
-                request.getRequestDispatcher("userListJSON.jsp").forward(request, response);
+                request.getRequestDispatcher("json_builder.jsp").forward(request, response);
                 
                 
             }

@@ -3,14 +3,13 @@
 <!DOCTYPE html>
 <aside>
     <div>
-        <form action="about:blank" method="POST">
-            <input class="search" type="text" value="" id="search" name="search" placeholder="Cerca...">
-        </form>
+        <input class="search" type="text" value="" id="search" name="search" placeholder="Cerca persone...">
+        <button id="sendSearch" onclick="search()">Cerca</button>
     </div>
     <div class="people">
         <h2 class="title">Persone</h2>
-        <div class="friends">
-            <ul>
+        <div class="friends" >
+            <ul id="friendz">
                 <!-- ciclo for dove vengono inseriti gli amici di ogni persona nella sidebar-->
                 <c:forEach var="friend" items="${friends}">
                     <li>

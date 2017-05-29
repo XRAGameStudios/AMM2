@@ -306,10 +306,9 @@ public class UserFactory
             String query =
                     "SELECT * FROM " + Tables.users +
                     " WHERE " + Columns.user_name + " LIKE ? " +
-                    " OR "  + Columns.user_name + " LIKE ? ";
+                    " OR "  + Columns.user_surname + " LIKE ? ";
             PreparedStatement stmt = conn.prepareStatement(query);
             String searchString = "%" + name + "%";
-            //processa query ed identifica i punti di domanda dove inserire gli attributi.
             stmt.setString(1, searchString);
             stmt.setString(2, searchString);
             ResultSet res = stmt.executeQuery();
