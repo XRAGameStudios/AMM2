@@ -5,7 +5,7 @@
 <json:array>
     <c:forEach var="u" items="${foundUsers}">
         <json:object>
-            <json:property name="id" value="${u.id}"/>
+            <json:property name="id" value="${u.ID}"/>
             <json:property name="name" value="${u.name}"/>
             <json:property name="surname" value="${u.surname}"/>
             <json:property name="fullname" value="${u.fullname}"/>

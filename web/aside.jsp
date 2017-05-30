@@ -4,7 +4,7 @@
 <aside>
     <div>
         <input class="search" type="text" value="" id="search" name="search" placeholder="Cerca persone...">
-        <button id="sendSearch" onclick="search()">Cerca</button>
+        <button id="sendSearch">Cerca</button>
     </div>
     <div class="people">
         <h2 class="title">Persone</h2>
@@ -13,12 +13,12 @@
                 <!-- ciclo for dove vengono inseriti gli amici di ogni persona nella sidebar-->
                 <c:forEach var="friend" items="${friends}">
                     <li>
-                        <c:if test="${not empty friend.imageURL}">
+                        <div>
                             <img class="profile sidebar" alt ="Foto di ${friend.fullname}" src="${friend.imageURL}">
-                        </c:if>
-                        <a href="bacheca.html?user=${friend.ID}">
-                            <p class="user">${friend.fullname}</p>
-                        </a>
+                            <a href="bacheca.html?user=${friend.ID}">
+                                <p class="user">${friend.fullname}</p>
+                            </a>
+                        </div>
                     </li>
                 </c:forEach>
             </ul>

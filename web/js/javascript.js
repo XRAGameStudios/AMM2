@@ -1,46 +1,70 @@
 
-
 function createElement(user)
 {
-    var img = $("<img>")
-            .attr("alt", "Foto Profilo")
-            .attr("src", user.imageURL);
-    
-    var profilePic = $("<div>")
-            .attr("class", "profilePic")
-            .append(img)
-    
-    var userData = $("<div>")
-    
-    
-    //creo l'elemento del DOM (il riquadro) contenente la rappresentazione grafica dell'utente.
-    //dobbiamo restituire un div di classe user che sia incapsulato come la sidebar.
-    return $("<div>")
+    var p = $("<p>")
             .attr("class","user")
-            .append(profilePic)
-            .append(userData)
+            .html(user.fullname)
     
+    var img = $("<img>")
+            .attr("alt", "Foto di " + user.fullname )
+            .attr("class", "profile sidebar")
+            .attr("src", user.imageURL);
+    var ahref =$("<a>")
+            .attr("href", "bacheca.html&user=" + user.ID)
+            .append(p);
+    
+    var userDiv = $("<div>")
+            .append(img)
+            .append(ahref)
+    var li = $("<li>")
+            .append(userDiv);
+    //creo l'elemento del DOM (il riquadro) contenente la rappresentazione grafica dell'utente.
+    //restituirò una <li> contenente l'utente.
+    return li;
 }
+
+function createErrorMessage()
+{
+    var p = $("<p>")
+            .html("Nessun risultato trovato.");
+    
+    
+    var userDiv = $("<div>")
+            .append(p)
+    var li = $("<li>")
+            .append(userDiv);
+    //creo l'elemento del DOM (il riquadro) contenente la rappresentazione grafica dell'utente.
+    //restituirò una <li> contenente l'utente.
+    return li;
+}
+
+
+
 
 function stateSuccess(data,state)
 {
     console.log(state);
     var userListPage = $("#friendz"); //div contenente la lista utenti.
     $(userListPage).empty();
-    for (var instance in data)
+    
+    if (data.length ===0)
     {
-        $(userListPage).append(createElement(data[instance]));
-        
+        $(userListPage).append(createErrorMessage());
+    }
+    else
+    {
+        for (var instance in data)
+        {
+            $(userListPage).append(createElement(data[instance]));
+            
+        }
     }
 }
 function stateFailure(data, state){
     console.log(state);
+    alert ("nada");
 }
 
-function search()
-{
-    
-}
 
 $(document).ready(function()
 {
