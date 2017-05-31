@@ -18,19 +18,17 @@ import javax.servlet.http.HttpServletResponse;
  * @author fabio
  */
 public class Filter extends HttpServlet {
-    
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        /* per come ho realizzato il progetto, se l'utente non è loggato non è
+           possibile eseguire una ricerca in quanto non è accessibile la sidebar.
+           Se dovessi però andare a verificare che l'utente sia loggato mi basterebbe 
+           eseguire un if (Actions.hasSession()) per verificare la presenza di una 
+           sessione e, in caso di assenza, rimanderei alla servlet di login.
+        */
         String command = request.getParameter("cmd");
         if (command!=null)
         {

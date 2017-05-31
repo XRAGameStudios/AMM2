@@ -44,7 +44,9 @@ function createErrorMessage()
 function stateSuccess(data,state)
 {
     console.log(state);
-    var userListPage = $("#friendz"); //div contenente la lista utenti.
+    //vado a modificare la <ul> contenente i risultati.
+    var userListPage = $("#friendz"); 
+    //la svuoto dei suoi contenuti.
     $(userListPage).empty();
     
     if (data.length ===0)
@@ -62,31 +64,44 @@ function stateSuccess(data,state)
 }
 function stateFailure(data, state){
     console.log(state);
-    alert ("nada");
+    
+}
+
+//funzione richiamata in modo identico fra i due eventi.
+function search()
+{
+    // leggo il contenuto nel textbox di ricerca
+    var name = $("#search")[0].value;
+    //restituisco un file json 
+    $.ajax({
+        url: "filter.json",
+        data:{
+            cmd:"search",
+            q: name},
+        dataType:"json",
+        success:function(data,state){
+            stateSuccess(data,state);
+        },
+        error:function(data,state){
+            stateFailure(data,state);
+        }
+        
+    });
+    
 }
 
 
 $(document).ready(function()
 {
+    //poichè la milestone richiede anche l'evento alla pressione del tasto.
+    //L'evento keyup è migliore di keypress in quanto la ricerca viene eseguita a tasto rilasciato.
+    $("#search").keyup(function()
+    {
+       search(); 
+    });
+    //in alternativa ottengo lo stesso comportamento (anche se ridondante) al click del bottone.
     $("#sendSearch").click(function()
     {
-        // leggo il contenuto nel textbox di ricerca
-        var name = $("#search")[0].value;
-        //restituisco un file json 
-        $.ajax({
-            url: "filter.json",
-            data:{
-                cmd:"search",
-                q: name},
-            dataType:"json",
-            success:function(data,state){
-                stateSuccess(data,state);
-            },
-            error:function(data,state){
-                stateFailure(data,state);
-            }
-            
-        });
-        
+        search();
     });
 });
