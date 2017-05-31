@@ -10,7 +10,7 @@ function createElement(user)
             .attr("class", "profile sidebar")
             .attr("src", user.imageURL);
     var ahref =$("<a>")
-            .attr("href", "bacheca.html&user=" + user.ID)
+            .attr("href", "bacheca.html?user=" + user.ID)
             .append(p);
     
     var userDiv = $("<div>")
