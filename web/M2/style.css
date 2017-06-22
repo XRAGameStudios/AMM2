@@ -19,7 +19,6 @@ html, body {
 }
 
 div.page {
-    background-color: magenta;
     /*tale colore lo uso per evidenziare le zone di pagina mal realizzate da me*/
     height: 100%;
     position:relative;
@@ -488,13 +487,11 @@ p.group::before {
 
 /*resizing per tutti gli elementi*/
 @media only screen and (max-width: 480px) {
-    aside {
-        display: none;
-    }
+    
     nav {
         width: auto;
         height: auto;
-        position: relative;
+        position: static;
     }
     nav::before {
         content: none;
@@ -522,7 +519,7 @@ p.group::before {
         display: block;
     }
     input {
-         width: 97.8%;
+        width: 97.8%;
     }
     div.forms {
         width: 100%;
@@ -552,31 +549,50 @@ p.group::before {
     }
     nav::before {
         content:none;
-}
-
+    }
+    aside {
+        position:static;
+        width:100%;
+        margin-top:48px;
+    }
 }
 
 @media only screen and (min-width:481px) and (max-width: 1024px) {
     aside {
-        display: none;
+        position:static;
+        
+        width:100%
     }
     div.content {
         width: 100%;
-        margin-left: 0;
+        margin: 0;
     }
     nav {
-        width: 1024px;
+        position:static;
+        width: 100%;
+        height:auto;
     }
     #infos::before {
+        content:none;
         width:50px;
         height: 50px;
         left:50%;
         text-align: left;
     }
 }
+@media only screen and (min-width:481px) and (max-width: 680px) {
+    nav, aside,div.content{
+        width: 670px;
+        margin:0;
 
+    }
+     div.content{
+      padding:0;
+    }
+}
 @media only screen and (min-width: 1024px) {
     div.content#login_content {
         margin-left: 0;
     }
+   
 }

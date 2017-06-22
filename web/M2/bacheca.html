@@ -1,100 +1,96 @@
 <!DOCTYPE html>
 <!--HTML5-->
 <html>
-
-<head>
-    <title>La mia bacheca - Nerdbook</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Fabio Perra">
-    <link rel="stylesheet" type="text/css" href="style.css" media="screen">
-</head>
-
-<body>
-    <div class="page">
-        <header>
-            <h1>La mia bacheca personale</h1>
-        </header>
-        <nav>
-            <ul>
-                <li class="active"><a href="bacheca.html">Bacheca</a></li>
-                <li><a href="profilo.html">Profilo</a></li>
-                <li><a href="descrizione.html">FAQ</a></li>
-                <li><a href="login.html">Accedi</a></li>
-
-            </ul>
-            <div class="logout">
-                <a href="login.html" class="a_logout">
-                    <p class="user logoutItem">Fabio Perra</p>
-                    <p class="logoutItem">Logout</p>
-                </a>
-            </div>
-        </nav>
-        <aside>
-            <div>
-                <form action="about:blank" method="POST">
-                    <input class="search" type="text" value="" id="search" name="search" placeholder="Cerca...">
-                </form>
-            </div>
-            <div class="people">
-                <h2 class="title">Persone</h2>
-                <div class="section_content">
+    
+    <head>
+        <title>La mia bacheca - Nerdbook</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Fabio Perra">
+        <link rel="stylesheet" type="text/css" href="style.css" media="screen">
+    </head>
+    
+    <body>
+        <div class="page">
+            <header>
+                <h1>La mia bacheca personale</h1>
+            </header>
+            <nav>
                     <ul>
-                        <li>
-                            <p id="user4" class="user">Giulio Monnezzaro</p>
-                        </li>
-                        <li>
-                            <p id="user5" class="user">Tonio Sgrinzi</p>
-                        </li>
-                        <li>
-                            <p id="user6" class="user">Lella Cespuglia</p>
-                        </li>
+                        <li class="active"><a href="bacheca.html">Bacheca</a></li>
+                        <li><a href="profilo.html">Profilo</a></li>
+                        <li><a href="descrizione.html">FAQ</a></li>
+                        <li><a href="login.html">Accedi</a></li>
                     </ul>
+                
+                    <div class="logout">
+                        <a href="login.html" class="a_logout">
+                            <p class="user logoutItem">Fabio Perra</p>
+                            <p class="logoutItem">Logout</p>
+                        </a>
+                    </div>
+            </nav>
+                <aside>
+            
+                <div class="people">
+                    <h2 class="title">Persone</h2>
+                    <div class="section_content">
+                        <ul>
+                            <li>
+                                <p id="user4" class="user">Giulio Monnezzaro</p>
+                            </li>
+                            <li>
+                                <p id="user5" class="user">Tonio Sgrinzi</p>
+                            </li>
+                            <li>
+                                <p id="user6" class="user">Lella Cespuglia</p>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="groups">
-                <h2 class="title">Gruppi</h2>
-                <div class="grouptitle">
-                    <a id="add" href="about:blank"><img alt="Crea nuovo gruppo" title="Crea nuovo gruppo" src="images/add.png"></a>
+                <div class="groups">
+                    <h2 class="title">Gruppi</h2>
+                    <div class="grouptitle">
+                        <a id="add" href="about:blank"><img alt="Crea nuovo gruppo" title="Crea nuovo gruppo" src="images/add.png"></a>
+                    </div>
+                    <div class="section_content">
+                        <ul>
+                            <li>
+                                <p id="group1" class="group">Stambecchi Vincenti</p>
+                            </li>
+                            <li>
+                                <p id="group2" class="group">Ricicla Software</p>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="section_content">
-                    <ul>
-                        <li>
-                            <p id="group1" class="group">Stambecchi Vincenti</p>
-                        </li>
-                        <li>
-                            <p id="group2" class="group">Ricicla Software</p>
-                        </li>
-                    </ul>
+            </aside>
+            <div id="bacheca" class="content">
+                <div class="state">
+                    <p class="myself user">Fabio Perra</p>
+                    <p class="mystate">Keep calm and follow XRA.</p>
                 </div>
-            </div>
-        </aside>
-        <div id="bacheca" class="content">
-            <div class="state">
-                <p class="myself user">Fabio Perra</p>
-                <p class="mystate">Keep calm and follow XRA.</p>
-            </div>
-            <div class="post">
-                <p id="user1" class="user">Orazio Grinzosi</p>
-                <p class="message">Salve a tutti! Ho un progetto in mente per Android... Qualcuno che sappia lavorare con XCode? No perditempo...</p>
-            </div>
-            <div class="post">
-                <p id="user2" class="user">Bruno Strati</p>
-
-                <p class="message">Ragazzi!! Mi sono appena installato linux!! Che bello, guardate!!</p>
-                <div>
-                    <a href="images/attached/attachment.jpg" target="_blank">
-                        <img class="attachment" title="allegato" alt="Allegato di Bruno Strati" src="images/attached/attachment.jpg">
-                    </a>
+                <div class="post">
+                    <p id="user1" class="user">Orazio Grinzosi</p>
+                    <p class="message">Salve a tutti! Ho un progetto in mente per Android... Qualcuno che sappia lavorare con XCode? No perditempo...</p>
                 </div>
-            </div>
-            <div class="post">
-                <p id="user3" class="user">Diego Deformato</p>
-                <p class="message">Il nostro nuovo progetto è appena stato creato!! Dateci una occhiata e compratelo ;-)</p>
-                <p class="userLink"><a href="https://www.microsoft.com/en-us/store/p/popup-simulator/9nblggh10x0k" target="_blank">http://www.microsoft.com/.../9nblggh10x0k</a></p>
+                <div class="post">
+                    <p id="user2" class="user">Bruno Strati</p>
+                    
+                    <p class="message">Ragazzi!! Mi sono appena installato linux!! Che bello, guardate!!</p>
+                    <div>
+                        <a href="images/attached/attachment.jpg" target="_blank">
+                            <img class="attachment" title="allegato" alt="Allegato di Bruno Strati" src="images/attached/attachment.jpg">
+                        </a>
+                    </div>
+                </div>
+                <div class="post">
+                    <p id="user3" class="user">Diego Deformato</p>
+                    <p class="message">Il nostro nuovo progetto è appena stato creato!! Dateci una occhiata e compratelo ;-)</p>
+                    <p class="userLink"><a href="https://www.microsoft.com/en-us/store/p/popup-simulator/9nblggh10x0k" target="_blank">http://www.microsoft.com/.../9nblggh10x0k</a></p>
+                </div>
             </div>
         </div>
-    </div>
-</body>
-
+    </body>
+    
 </html>
