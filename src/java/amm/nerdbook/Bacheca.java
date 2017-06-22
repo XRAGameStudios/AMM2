@@ -122,7 +122,7 @@ public class Bacheca extends HttpServlet
     {
         String team = request.getParameter("team");
         
-        // voglio pescare il parametro "team" (?user=x oppure ?...&user=x).
+        // voglio pescare il parametro "team"
         if (team!=null) //ovvero, se presente il parametro
         {
             int ID = Integer.parseInt(team);

@@ -24,8 +24,8 @@
                 <input type="hidden" name="content" value="${newPost.content}">
                 <input type="hidden" name="attachment" value="${newPost.URL}">
                 <input type="hidden" name="type" value="${newPost.postType}">
-                <input type="hidden" name="user" value="${newPost.user.ID}">
-                <input type="hidden" name="team" value="${newPost.group.ID}">
+                <c:if test="${empty team}"><input type="hidden" name="user" value="${newPost.user.ID}"></c:if>
+                <c:if test="${not empty team}"><input type="hidden" name="team" value="${newPost.group.ID}"></c:if>
                 <input type="hidden" name="from" value="${newPost.author.ID}">
                 
                 <input type="hidden" name="for" 
