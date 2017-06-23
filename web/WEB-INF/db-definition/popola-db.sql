@@ -1,14 +1,14 @@
 --Inserirò in questo file l'insieme di righe necessarie per popolare le varie tabelle.
 
 --Creo i vari utenti del sito web.
-INSERT INTO users (userID,name,surname,email,password,url,birthday,status)
-VALUES (default,'Fabio','Perra','fperra@gnerd.com','123','images/user/me.jpg','06/10/1994','Keep calm and follow XRA.'),
-       (default,'Orazio','Grinzosi','oraziogrinzosi@gnerd.com','123','images/user/user3.jpg','11/09/1990','Le lasagne sono buone a colazione.'),
-       (default,'Flavio','Facoceri','flaviofac@gnerd.com','123','images/user/user1.jpg','13/11/1992','Perchè lavorare se posso giocare a DOTA?.'),
-       (default,'Tonio','Sgrinzi','tonietto@gnerd.com','123','images/user/user4.jpg','03/01/1980','Sono un dragonborn!'),
-       (default,'Lella','Cespuglia','lella@gnerd.com','123','images/user/user6.jpg','21/03/1994','Le donne ke si rasano nn sn bll'),
-       (default,'Beppe','Sgrulli','beppone@gnerd.com','123','images/user/user5.jpg','24/12/1979','Android vs iOS? Meglio Symbian.'),
-       (default,'Giuseppe','Simone','uomofocoso@gnerd.com','123','','11/09/1970','Siete monelle!');
+INSERT INTO users (userID,name,surname,username,email,password,url,birthday,status)
+VALUES (default,'Fabio','Perra','XRA','fperra@gnerd.com','123','images/user/me.jpg','06/10/1994','Keep calm and follow XRA.'),
+       (default,'Orazio','Grinzosi','Oraxyo','oraziogrinzosi@gnerd.com','123','images/user/user3.jpg','11/09/1990','Le lasagne sono buone a colazione.'),
+       (default,'Flavio','Facoceri','FlaFac','flaviofac@gnerd.com','123','images/user/user1.jpg','13/11/1992','Perchè lavorare se posso giocare a DOTA?.'),
+       (default,'Tonio','Sgrinzi','Sgrinzonio','tonietto@gnerd.com','123','images/user/user4.jpg','03/01/1980','Sono un dragonborn!'),
+       (default,'Lella','Cespuglia','Cespy94','lella@gnerd.com','123','images/user/user6.jpg','21/03/1994','Le donne ke si rasano nn sn bll'),
+       (default,'Beppe','Sgrulli','xXBeppeXx','beppone@gnerd.com','123','images/user/user5.jpg','24/12/1979','Android vs iOS? Meglio Symbian.'),
+       (default,'Giuseppe','Simone','MastroGeppetto','uomofocoso@gnerd.com','123','','11/09/1970','Siete monelle!');
 
 --Aggiungo amicizie
 INSERT INTO friends (follower, followed)
@@ -34,7 +34,7 @@ VALUES (default,'ONLY_TEXT'),
        (default,'URL');
 
 --Creo i post fra utente ed utente
-INSERT INTO userPosts (postID,content,type,author,toUser,attachment)
+INSERT INTO posts (postID,content,type,author,toUser,attachment)
 VALUES (default,'Il codice da vinci è stato scritto in C#.',1,1,1,''),
        (default,'Nuovo progetto XRA Game Studios! Contattatemi per maggiori informazioni.',1,1,1,''),
        (default,'Ciao Fabio, poi mandami il link del gioco, voglio acquistarlo.',2,3,1,'images/attached/buong.jpg'),     
@@ -50,7 +50,7 @@ VALUES (default,'Il codice da vinci è stato scritto in C#.',1,1,1,''),
        (default,'mA WINDOWS è SCRIVIBILE CON XCODE????????',1,6,6,'');
        
 --Creo alcuni post all'interno dei gruppi      
-INSERT INTO groupPosts (postID,content,type,author,toGroup,attachment)
+INSERT INTO posts (postID,content,type,author,toGroup,attachment)
 VALUES (default,'Come siete messi col progetto?',1,1,1,''),
        (default,'Ho fatto una parte importante del gioco. Dopo te la mando.',1,6,1,''),
        (default,'Ragazzi avete scaricato overwatch?',1,5,2,''),

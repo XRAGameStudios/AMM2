@@ -112,7 +112,7 @@ public class PostFactory
         {
             Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
             String query =
-                    "INSERT INTO " + Tables.user_posts + "(postID,content,type,author,toUser,attachment)" +
+                    "INSERT INTO " + Tables.posts + "(postID,content,type,author,toUser,attachment)" +
                     " VALUES (default,?,?,?,?,?)";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, content);
@@ -138,7 +138,7 @@ public class PostFactory
         {
             Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
             String query =
-                    "INSERT INTO " + Tables.group_posts + "(postID,content,type,author,toGroup,attachment)" +
+                    "INSERT INTO " + Tables.posts + "(postID,content,type,author,toGroup,attachment)" +
                     " VALUES (default,?,?,?,?,?)";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, content);
@@ -163,24 +163,24 @@ public class PostFactory
     public Post makeUserPost(ResultSet res) throws SQLException
     {
         Post post = new Post();
-        post.setID(res.getInt(Columns.userPosts_id));
-        post.setAuthor(UserFactory.getInstance().getUserByID(res.getInt(Columns.userPosts_author)));
+        post.setID(res.getInt(Columns.posts_id));
+        post.setAuthor(UserFactory.getInstance().getUserByID(res.getInt(Columns.posts_author)));
         post.setPostTypeByString(res.getString(Columns.postType_name));
-        post.setURL(res.getString(Columns.userPosts_attachment));
-        post.setUser(UserFactory.getInstance().getUserByID(res.getInt(Columns.userPosts_destination)));
-        post.setContent(res.getString(Columns.userPosts_content));
+        post.setURL(res.getString(Columns.posts_attachment));
+        post.setUser(UserFactory.getInstance().getUserByID(res.getInt(Columns.posts_destination_user)));
+        post.setContent(res.getString(Columns.posts_content));
         return post;
     }
     //crea un oggetto groupPost da un risultato di una query
     public Post makeGroupPost (ResultSet res) throws SQLException
     {
         Post post = new Post();
-        post.setID(res.getInt(Columns.groupPosts_id));
-        post.setAuthor(UserFactory.getInstance().getUserByID(res.getInt(Columns.groupPosts_author)));
-        post.setGroup(GroupFactory.getInstance().getGroupByID(res.getInt(Columns.groupPosts_destination)));
+        post.setID(res.getInt(Columns.posts_id));
+        post.setAuthor(UserFactory.getInstance().getUserByID(res.getInt(Columns.posts_author)));
+        post.setGroup(GroupFactory.getInstance().getGroupByID(res.getInt(Columns.posts_destination_group)));
         post.setPostTypeByString(res.getString(Columns.postType_name));
-        post.setURL(res.getString(Columns.groupPosts_attachment));
-        post.setContent(res.getString(Columns.groupPosts_content));
+        post.setURL(res.getString(Columns.posts_attachment));
+        post.setContent(res.getString(Columns.posts_content));
         return post;
     }
     
@@ -190,7 +190,7 @@ public class PostFactory
         {
             Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
             String query =
-                    "INSERT INTO " + Tables.user_posts + "(postID,content,type,author,toUser,attachment)" +
+                    "INSERT INTO " + Tables.posts + "(postID,content,type,author,toUser,attachment)" +
                     " VALUES (default,?,?,?,?,?)";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, post.getContent());
@@ -217,7 +217,7 @@ public class PostFactory
         {
             Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
             String query =
-                    "INSERT INTO " + Tables.user_posts + "(postID,content,type,author,toGroup,attachment)" +
+                    "INSERT INTO " + Tables.posts + "(postID,content,type,author,toGroup,attachment)" +
                     " VALUES (default,?,?,?,?,?)";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, post.getContent());
@@ -246,8 +246,8 @@ public class PostFactory
         {
             Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
             String update =
-                    "DELETE FROM " + Tables.user_posts +
-                    " WHERE "+ Columns.userPosts_id + " = ?";
+                    "DELETE FROM " + Tables.posts +
+                    " WHERE "+ Columns.posts_id + " = ?";
             PreparedStatement stmt = conn.prepareStatement(update);
             stmt.setInt(1, ID);
             int result = stmt.executeUpdate();
@@ -268,8 +268,8 @@ public class PostFactory
         {
             Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
             String update =
-                    "DELETE FROM " + Tables.group_posts +
-                    " WHERE "+ Columns.groupPosts_id + " = ?";
+                    "DELETE FROM " + Tables.posts +
+                    " WHERE "+ Columns.posts_destination_group + " = ?";
             PreparedStatement stmt = conn.prepareStatement(update);
             stmt.setInt(1, ID);
             int result = stmt.executeUpdate();
@@ -293,10 +293,10 @@ public class PostFactory
         {
             Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
             String query =
-                    "SELECT * FROM " + Tables.group_posts +
-                    " JOIN " + Tables.postType + " ON " + Columns.userPosts_type + " = " + Columns.postType_id +
-                    " JOIN " + Tables.groups + " ON " + Columns.groupPosts_destination + " = " + Columns.groups_id +        
-                    " WHERE " + Columns.groupPosts_destination + " = ?";
+                    "SELECT * FROM " + Tables.posts +
+                    " JOIN " + Tables.postType + " ON " + Columns.posts_type + " = " + Columns.postType_id +
+                    " JOIN " + Tables.groups + " ON " + Columns.posts_destination_group + " = " + Columns.groups_id +        
+                    " WHERE " + Columns.posts_destination_group + " = ?";
                PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, ID);
             ResultSet res = stmt.executeQuery();
@@ -324,9 +324,9 @@ public class PostFactory
         {
             Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
             String query =
-                    "SELECT * FROM " + Tables.user_posts +
-                    " JOIN " + Tables.postType + " ON " + Columns.userPosts_type + " = " + Columns.postType_id +
-                    " WHERE " + Columns.userPosts_destination + " = ?";
+                    "SELECT * FROM " + Tables.posts +
+                    " JOIN " + Tables.postType + " ON " + Columns.posts_type + " = " + Columns.postType_id +
+                    " WHERE " + Columns.posts_destination_user + " = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, ID);
             ResultSet res = stmt.executeQuery();
@@ -365,9 +365,9 @@ public class PostFactory
         {
             Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
             String query =
-                    "SELECT * FROM " + Tables.group_posts +
-                    " JOIN " + Tables.postType + " ON " + Columns.groupPosts_type + " = " + Columns.postType_id +
-                    " WHERE "+ Columns.groupPosts_author +" = ?";
+                    "SELECT * FROM " + Tables.posts +
+                    " JOIN " + Tables.postType + " ON " + Columns.posts_type + " = " + Columns.postType_id +
+                    " WHERE "+ Columns.posts_author +" = ? AND " + Columns.posts_destination_group + " IS NOT NULL";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, ID);
             ResultSet res = stmt.executeQuery();

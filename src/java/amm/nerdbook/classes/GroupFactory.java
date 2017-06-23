@@ -199,8 +199,8 @@ public class GroupFactory
                 " WHERE " + Columns.teams_team + " = ? ";
         
         String deleteGroupPosts =
-                "DELETE FROM " + Tables.group_posts +
-                " WHERE " + Columns.groupPosts_destination + " = ? ";
+                "DELETE FROM " + Tables.posts +
+                " WHERE " + Columns.posts_destination_group + " = ? ";
         String deleteGroup =
                 "DELETE FROM " + Tables.groups +
                 " WHERE " + Columns.groups_id + " = ? ";

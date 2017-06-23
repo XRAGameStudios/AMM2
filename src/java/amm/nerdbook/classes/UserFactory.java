@@ -85,12 +85,9 @@ public class UserFactory
     public boolean deleteUser(int ID)
     {
         String deleteUserPosts =
-                "DELETE FROM " + Tables.user_posts +
-                " WHERE " + Columns.userPosts_author + " = ? " +
-                " OR " + Columns.userPosts_destination + " = ?";
-        String deleteGroupPosts =
-                "DELETE FROM " + Tables.group_posts +
-                " WHERE " + Columns.groupPosts_author + " = ? ";
+                "DELETE FROM " + Tables.posts +
+                " WHERE " + Columns.posts_author + " = ? " +
+                " OR " + Columns.posts_destination_user + " = ?";
         String deleteFriendships =
                 "DELETE FROM " + Tables.friends +
                 " WHERE " + Columns.friends_followed + " = ? " +
@@ -111,21 +108,19 @@ public class UserFactory
             Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
             conn.setAutoCommit(false);
             PreparedStatement stmt1 = conn.prepareStatement(deleteUserPosts);
-            PreparedStatement stmt2 = conn.prepareStatement(deleteGroupPosts);
-            PreparedStatement stmt3 = conn.prepareStatement(deleteUserFromTeam);
-            PreparedStatement stmt4 = conn.prepareStatement(deleteFriendships);
-            PreparedStatement stmt5 = conn.prepareStatement(changeGroupFounder);
+            PreparedStatement stmt2 = conn.prepareStatement(deleteUserFromTeam);
+            PreparedStatement stmt3 = conn.prepareStatement(deleteFriendships);
+            PreparedStatement stmt4 = conn.prepareStatement(changeGroupFounder);
             
-            PreparedStatement stmt6= conn.prepareStatement(deleteUser);
+            PreparedStatement stmt5= conn.prepareStatement(deleteUser);
             //imposto le variabili per i vari statement.
             stmt1.setInt(1, ID);
             stmt1.setInt(2, ID);
             stmt2.setInt(1, ID);
             stmt3.setInt(1, ID);
+            stmt3.setInt(2, ID);
             stmt4.setInt(1, ID);
-            stmt4.setInt(2, ID);
             stmt5.setInt(1, ID);
-            stmt6.setInt(1, ID);
             boolean result = false;
             //eseguo in ordine gli update.
             try
@@ -135,7 +130,6 @@ public class UserFactory
                 stmt3.executeUpdate();
                 stmt4.executeUpdate();
                 stmt5.executeUpdate();
-                stmt6.executeUpdate();
                 conn.commit();
                 result = true;
                 
@@ -156,7 +150,6 @@ public class UserFactory
                 stmt3.close();
                 stmt4.close();
                 stmt5.close();
-                stmt6.close();
                 conn.close();
                 return result;
                 
@@ -179,7 +172,7 @@ public class UserFactory
             Connection conn = DriverManager.getConnection(connectionString,Admin.username,Admin.password);
             String query =
                     "SELECT " + Columns.user_id + " FROM " + Tables.users +
-                    " WHERE " + Columns.user_email + " = ? AND "
+                    " WHERE " + Columns.user_username + " = ? AND "
                     + Columns.user_password + " = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, username);
